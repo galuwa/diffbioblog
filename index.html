@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Diff Bio</title>
+  <meta name="description" content="Robotics, Software, Science Development" />
+
+  <style>
+    :root{
+      --bg: #0b0d12;
+      --card: rgba(255,255,255,0.06);
+      --card2: rgba(255,255,255,0.04);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.65);
+      --border: rgba(255,255,255,0.10);
+      --shadow: 0 12px 40px rgba(0,0,0,0.35);
+      --radius: 18px;
+      --max: 980px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color: var(--text);
+      background:
+        radial-gradient(1100px 500px at 20% -10%, rgba(120,130,255,0.20), transparent 55%),
+        radial-gradient(900px 500px at 90% 0%, rgba(80,220,190,0.18), transparent 50%),
+        radial-gradient(900px 600px at 50% 110%, rgba(255,170,100,0.10), transparent 55%),
+        var(--bg);
+      line-height: 1.55;
+      letter-spacing: 0.1px;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 34px 18px 70px; }
+
+    header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 22px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: 0.2px;
+    }
+    .brand p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 60ch;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: 2px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      border-radius: 999px;
+      font-size: 13px;
+      color: var(--muted);
+      transition: transform 120ms ease, background 120ms ease;
+      user-select: none;
+    }
+    .pill:hover { transform: translateY(-1px); background: rgba(255,255,255,0.06); }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.35);
+    }
+
+    main { margin-top: 22px; display: grid; gap: 28px; }
+
+    section {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.03);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.28);
+      overflow: hidden;
+    }
+
+    .section-head {
+      padding: 18px 22px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      border-bottom: 1px solid var(--border);
+    }
+    .section-head h2 { margin: 0; font-size: 16px; letter-spacing: 0.6px; text-transform: uppercase; }
+    .section-head .hint { margin: 0; color: var(--muted); font-size: 13px; }
+
+    .posts { padding: 16px 16px 6px; display: grid; gap: 14px; }
+
+    /* POST CARD */
+    article.post {
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.025));
+    }
+    .post-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .post-title {
+      margin: 0;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 12.5px;
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      white-space: nowrap;
+    }
+    .tag {
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .post p { margin: 10px 0 0; color: rgba(255,255,255,0.82); }
+
+    /* MEDIA */
+    figure { margin: 12px 0 0; }
+    figcaption { margin-top: 8px; color: var(--muted); font-size: 12.5px; }
+
+    .media-img {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      display: block;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .embed {
+      position: relative;
+      width: 100%;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      aspect-ratio: 16 / 9;
+    }
+    .embed iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    video.media-video {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+    }
+
+    footer {
+      margin-top: 26px;
+      color: var(--muted);
+      font-size: 12.5px;
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    /* small screens */
+    @media (max-width: 680px) {
+      header { flex-direction: column; }
+      nav { justify-content: flex-start; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <h1>Diff Bio Development Blog</h1>
+        <p>Follow along with developmental updates on Robotics, Software, and Science.</p>
+        <p>This blog was born over winter holiday vacation as an opportunity to track and demonstrate our technical progress through hackathon effots.</p>
+        
+      </div>
+
+      <nav>
+        <a class="pill" href="#robotics"><span class="dot"></span>Robotics</a>
+        <a class="pill" href="#software"><span class="dot"></span>Software</a>
+        <a class="pill" href="#science"><span class="dot"></span>Science</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ===================== ROBOTICS ===================== -->
+      <section id="robotics">
+        <div class="section-head">
+          <h2>Robotics</h2>
+          <p class="hint">Builds, Mechanisms, Lab Automation</p>
+        </div>
+          
+        <article class="post">
+        <p>
+          The primary project featured in this section is the Rail Robot - Holiday Hackathon. All existing automation systems we've observed are dependent on a 6DOF robotic
+          arm which picks and places plates into various machines. As we want our automation system to closer ressemble a manufacturing line, we wanted to hackathon a cost-effective
+          prototype which would start to lay the ground work for the linear/sequential layout. The concept is to demonstrate a plate moving rail system that can slide a plate through
+          the open body of a liquid handling robot.
+        </p>
+        <p>
+          Software-wise this platform is to be build on a embedded-linux computer and employ the pseudo-real-time cooperative C++ loop discussed in our architecture documentation.
+          While this preliminary design will omit much of the redundancy and fault-tolerance required for a production product, as a platform it will enable to expore various sensors
+          options, actuation mechanisms, and design decision that will ultimately shape the production design.
+        </p>
+        </article>
+
+
+        <div class="posts">
+
+          <!-- ===== COPY/PASTE POST BLOCK (START) ===== -->
+          <article class="post">
+            <div class="post-head">
+              <h3 class="post-title">Wire Clean Up Effort</h3>
+              <div class="meta">
+                <span>12.27.2025</span>
+                <span class="tag">Rail Robot - Holiday Hackathon</span>
+              </div>
+            </div>
+
+            <p>
+              Now that the rail robot prototype is consistently up and running, it felt like a good opportunity to clean up the wiring and move away from dupont cables.
+              I replicated the breadboard setup on a solderable breadboard and added headers to interface with the 12V motor power, stepper phases, and station reed switches.
+              The board should remain fairly extensible, but is much more robust to accidents and cat interactions.
+            </p>
+            <p>
+              One of the more important changes was suspending the stepper motor phase wires above the rail mechanism, which ensures there is no tangling during operation.
+              This is ultimately one of the larger considerations for production design when trading a tethered vs. self contained solution which sources power from a rail.
+              For this demo, I wanted to keep the design as simple as possible which meant, keeping logical control components off the cart.
+            </p>
+
+            <figure>
+              <img class="media-img" src="content/rewire.jpg" alt="consolidation of electrical design" />
+            </figure>
+          
+          </article>
+          <!-- ===== COPY/PASTE POST BLOCK (END) ===== -->
+
+          <!-- ===== COPY/PASTE POST BLOCK (START) ===== -->
+          <article class="post">
+            <div class="post-head">
+              <h3 class="post-title">Rail Robot Speed Testing</h3>
+              <div class="meta">
+                <span>12.26.2025</span>
+                <span class="tag">Rail Robot - Holiday Hackathon</span>
+              </div>
+            </div>
+
+            <p>
+              This is the result of preliminary speed testing for the rail system robot. Using the real-time C++ control library I was able to split actuator control
+              into two components: StepperControl and PositionControl - the former is responsible for generating a pulse wave to the stepper phases, and handling the
+              various phases of acceleration/deceleration; The latter is responsible for high level system control of position and keeping a state machine of station
+              passage and direction.
+            </p>
+
+            <p>
+              This speed is highly dependent on the weight provided by the stepper motors - without additional rail clamping mechanisms, the acceleration must be a gradual
+              process, else the laterally offset gear will kick the cart off the track. Ultimately, we would want to center this mechanism or counteract the torque on a
+              production design.
+            </p>
+
+            <video class="media-video" controls preload="metadata">
+              <source src="content/speed_test.mp4" type="video/mp4" />
+              Sorry, your browser doesn’t support embedded videos.
+            </video>
+          
+          </article>
+          <!-- ===== COPY/PASTE POST BLOCK (END) ===== -->
+
+          <!-- ===== COPY/PASTE POST BLOCK (START) ===== -->
+          <article class="post">
+            <div class="post-head">
+              <h3 class="post-title">CAD Design and Iteration</h3>
+              <div class="meta">
+                <span>12.21.2025</span>
+                <span class="tag">Rail Robot - Holiday Hackathon</span>
+              </div>
+            </div>
+
+            <p>
+              I designed the entire system in CAD before writing software and assembling any hardware. The metal rails and ball bearing wheels were ordered, but all other
+              mechanical parts can be 3D printed. I modeled the metal parts and was able to form sub-assemblies in CAD to capture mechnical interations between the parts.
+              I deviated a bit from the initial drawings with respect to the location of the gear rail and position of the actuators. Because the servos arrived with extremely
+              long phase cables, I decided to keep the single board computer off the cart for initial testing.
+            </p>
+            <p> 
+              I designed a scissor lift mechanism for lifting the plates, but the existing design introduces too much torque on the plastic parts. This will need to be redesigned
+              with another gear system, but I will likely shelve work on that until I can complete motion platform testing, and demonstrate fluid movement.
+            </p>
+
+            <figure>
+              <img class="media-img" src="content/cad1.png" alt="" />
+              <img class="media-img" src="content/cad2.png" alt="" />
+              <img class="media-img" src="content/cad3.png" alt="" />
+            </figure>
+          
+          </article>
+          <!-- ===== COPY/PASTE POST BLOCK (END) ===== -->
+
+          <!-- ===== COPY/PASTE POST BLOCK (START) ===== -->
+          <article class="post">
+            <div class="post-head">
+              <h3 class="post-title">Initial Demo Sketches & Designs</h3>
+              <div class="meta">
+                <span>12.18.2025</span>
+                <span class="tag">Rail Robot - Holiday Hackathon</span>
+              </div>
+            </div>
+
+            <p> 
+              I intially sketched out the rough design for the holiday hackaton. I'll buy metal rails and suspend them using PLA, 3D printed stands. The computer,
+              actuators, and lifting mechanism should be mounted on the bottom of the cart, leaving the top to hold the plate. The preliminary idea is to use a spooling
+              mechanism with a scissor lift to place the plates onto stations which stick out over the track. The cart can lift the plates prior to arrival and then lower
+              the lifting mecahnism in order to leave the plate at the station. This enabled picking and placing plates without addition external mechanisms at each station
+              and is sufficient for the demo.
+            </p>
+
+            <figure>
+              <img class="media-img" src="content/sketch1.png" alt="" />
+              <img class="media-img" src="content/sketch2.png" alt="" />
+            </figure>
+          
+          </article>
+          <!-- ===== COPY/PASTE POST BLOCK (END) ===== -->
+
+        </div>
+      </section>
+
+      <!-- ===================== SOFTWARE ===================== -->
+      <section id="software">
+        <div class="section-head">
+          <h2>Software</h2>
+          <p class="hint">Tools, build systems, code patterns, notes</p>
+        </div>
+
+        <div class="posts">
+          
+          <!-- <article class="post">
+            <div class="post-head">
+              <h3 class="post-title">Tiny “post template” for fast writing</h3>
+              <div class="meta">
+                <span>2025-12-28</span>
+                <span class="tag">template</span>
+              </div>
+            </div> -->
+
+            <!-- <p>
+              Duplicate a post card, change the title/date/tag, then optionally add an image, embed, or video file.
+            </p> -->
+
+            <!-- Image example -->
+            <!-- <figure>
+              <img class="media-img" src="images/robotics-gripper.jpg" alt="Gripper test rig photo" />
+              <figcaption>Drop an image in <code>images/</code> and set <code>src</code>.</figcaption>
+            </figure> -->
+
+            <!-- YouTube/Vimeo embed example -->
+            <!-- <figure class="embed" aria-label="Video embed">
+              <iframe
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                title="Video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+              </iframe>
+            </figure> -->
+
+            <!-- Native video file example -->
+            <!-- <figure>
+              <video class="media-video" controls preload="metadata">
+                <source src="videos/demo.mp4" type="video/mp4" />
+                Sorry, your browser doesn’t support embedded videos.
+              </video>
+              <figcaption>Put video files in <code>videos/</code> and update the <code>src</code>.</figcaption>
+            </figure>
+          </article> -->
+
+        </div>
+      </section>
+
+      <!-- ===================== SCIENCE ===================== -->
+      <section id="science">
+        <div class="section-head">
+          <h2>Science</h2>
+          <p class="hint">Papers, experiments, measurement notes</p>
+        </div>
+
+        <div class="posts">
+          
+          <!-- <article class="post">
+            <div class="post-head">
+              <h3 class="post-title">Experiment log structure</h3>
+              <div class="meta">
+                <span>2025-12-28</span>
+                <span class="tag">notes</span>
+              </div>
+            </div>
+
+            <p>
+              Keep it boring: hypothesis → method → data → conclusion → next steps. Attach plots as images.
+            </p>
+          </article> -->
+
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      © <span id="year"></span>
+    </footer>
+  </div>
+
+  <script>
+    // Auto-year in footer (optional)
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
+
