@@ -232,20 +232,95 @@
           
         <article class="post">
         <p>
-          The primary project featured in this section is the Rail Robot - Holiday Hackathon. All existing automation systems we've observed are dependent on a 6DOF robotic
+          The primary project featured in this section is the Rail Robot - Holiday Hackathon which took place over a 2 week period during part time opportunistic periods. All existing automation systems we've observed are dependent on a 6DOF robotic
           arm which picks and places plates into various machines. As we want our automation system to closer ressemble a manufacturing line, we wanted to hackathon a cost-effective
           prototype which would start to lay the ground work for the linear/sequential layout. The concept is to demonstrate a plate moving rail system that can slide a plate through
-          the open body of a liquid handling robot.
+          the open body of a liquid handling robot. The intent is to derisk the linear motion platform design, actuation mechanisms, and software control architecture that would ultimately be used.
         </p>
         <p>
           Software-wise this platform is to be build on a embedded-linux computer and employ the pseudo-real-time cooperative C++ loop discussed in our architecture documentation.
           While this preliminary design will omit much of the redundancy and fault-tolerance required for a production product, as a platform it will enable to expore various sensors
-          options, actuation mechanisms, and design decision that will ultimately shape the production design.
+          options, actuation mechanisms, and design decision that will ultimately shape the production design. The demo system is a very simple pick and place operation between two stations,
+          but the design is extensible to more complex operations with more robust mechanism designs and sensor integration.
         </p>
         </article>
 
 
         <div class="posts">
+
+          <!-- ===== COPY/PASTE POST BLOCK (START) ===== -->
+          <article class="post">
+            <div class="post-head">
+              <h3 class="post-title">Demo Pick and Place</h3>
+              <div class="meta">
+                <span>12.30.2025</span>
+                <span class="tag">Rail Robot - Holiday Hackathon</span>
+              </div>
+            </div>
+
+            <p>
+              This is a demo of the rail robot performing a pick and place operation. The cart moves along the rail to the first station, lowers the lift mechanism to pick up
+              the plate, then moves to the second station and lowers the lift mechanism to deposit the plate. The entire operation is controlled by a single-board computer
+              running a real-time C++ control loop. The speed and acceleration of the cart is controlled to ensure smooth movement and prevent dropping the plate and the lift
+              mechanism is designed is a simple cam mechanism driven by a servo motor without any additional sensors or latching. This approach and be further improved with the addition
+              of sensors to detect plate presence and ensure proper placement.
+            </p>
+
+            <video class="media-video" controls preload="metadata">
+              <source src="content/speed_test_place.mp4" type="video/mp4" />
+              Sorry, your browser doesn’t support embedded videos.
+            </video>
+          
+          </article>
+          <!-- ===== COPY/PASTE POST BLOCK (END) ===== -->
+
+          <!-- ===== COPY/PASTE POST BLOCK (START) ===== -->
+          <article class="post">
+            <div class="post-head">
+              <h3 class="post-title">Simple Station Design</h3>
+              <div class="meta">
+                <span>12.30.2025</span>
+                <span class="tag">Rail Robot - Holiday Hackathon</span>
+              </div>
+            </div>
+
+            <p>
+              To facilitate plate placement and pickup, I designed a simple station which can be 3D printed. The station has a lip which extends over the rail, allowing the
+              cart to position the plate over the station and then lower the lift mechanism to deposit the plate. The station is designed to be modular, allowing for multiple
+              stations to be placed along the rail as needed. This is the simplest possible design for the demo, but in a production system, we would want to incorporate sensors and possibly locking mechanisms to ensure
+              proper plate placement and security.
+            </p>
+
+            <figure>
+              <img class="media-img" src="content/simple_station.png" alt="simple station design" />
+            </figure>
+          
+          </article>
+          <!-- ===== COPY/PASTE POST BLOCK (END) ===== -->
+
+          <!-- ===== COPY/PASTE POST BLOCK (START) ===== -->
+          <article class="post">
+            <div class="post-head">
+              <h3 class="post-title">Cam Lift Redesign</h3>
+              <div class="meta">
+                <span>12.30.2025</span>
+                <span class="tag">Rail Robot - Holiday Hackathon</span>
+              </div>
+            </div>
+
+            <p>
+              The scissor lift mechanism I initially designed for lifting the plates was not sufficiently rigid, and introduced too much torque on the plastic parts.
+              I redesigned the lift to use a cam mechanism which is driven by a servo motor. This design is much more compact, rigid, and provides a smooth lifting motion.
+              The cam profile was designed to provide a gradual acceleration and deceleration of the lift, which minimizes the risk of dropping the plate during movement.
+            </p>
+
+            <figure>
+              <img class="media-img" src="content/cam_lift.png" alt="cam lift design" />
+              <img class="media-img" src="content/plate_holding.jpg" alt="cam lift design" />
+            </figure>
+          
+          </article>
+          <!-- ===== COPY/PASTE POST BLOCK (END) ===== -->
 
           <!-- ===== COPY/PASTE POST BLOCK (START) ===== -->
           <article class="post">
@@ -271,6 +346,17 @@
             <figure>
               <img class="media-img" src="content/rewire.jpg" alt="consolidation of electrical design" />
             </figure>
+
+            <p>
+              I exposed headers for all connections to the single board computer, stepper motor, servos, and reed switches. This should make it easier to debug and reconfigure.
+            </p>
+            <figure>
+              <img class="media-img" src="content/board_front.jpg" alt="consolidation of electrical design" />
+            </figure>
+            <figure>
+              <img class="media-img" src="content/board_back.jpg" alt="consolidation of electrical design" />
+            </figure>
+
           
           </article>
           <!-- ===== COPY/PASTE POST BLOCK (END) ===== -->
