@@ -6,264 +6,118 @@
   <title>Diff Bio</title>
   <meta name="description" content="Robotics, Software, Science Development" />
 
-  <style>
-    :root{
-      --bg: #0b0d12;
-      --card: rgba(255,255,255,0.06);
-      --card2: rgba(255,255,255,0.04);
-      --text: rgba(255,255,255,0.92);
-      --muted: rgba(255,255,255,0.65);
-      --border: rgba(255,255,255,0.10);
-      --shadow: 0 12px 40px rgba(0,0,0,0.35);
-      --radius: 18px;
-      --max: 980px;
-    }
-
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      color: var(--text);
-      background:
-        radial-gradient(1100px 500px at 20% -10%, rgba(120,130,255,0.20), transparent 55%),
-        radial-gradient(900px 500px at 90% 0%, rgba(80,220,190,0.18), transparent 50%),
-        radial-gradient(900px 600px at 50% 110%, rgba(255,170,100,0.10), transparent 55%),
-        var(--bg);
-      background-attachment: fixed;
-      line-height: 1.55;
-      letter-spacing: 0.1px;
-    }
-
-    a { color: inherit; text-decoration: none; }
-    a:hover { text-decoration: underline; text-underline-offset: 3px; }
-
-    .wrap { max-width: var(--max); margin: 0 auto; padding: 34px 18px 70px; }
-
-    header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 20px 22px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
-    }
-
-    .brand h1 {
-      margin: 0;
-      font-size: 22px;
-      letter-spacing: 0.2px;
-    }
-    .brand p {
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      max-width: 60ch;
-    }
-
-    nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      justify-content: flex-end;
-      margin-top: 2px;
-    }
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.03);
-      border-radius: 999px;
-      font-size: 13px;
-      color: var(--muted);
-      transition: transform 120ms ease, background 120ms ease;
-      user-select: none;
-    }
-    .pill:hover { transform: translateY(-1px); background: rgba(255,255,255,0.06); }
-    .dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: rgba(255,255,255,0.35);
-    }
-
-    main { margin-top: 22px; display: grid; gap: 28px; }
-
-    section {
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: rgba(255,255,255,0.03);
-      box-shadow: 0 10px 28px rgba(0,0,0,0.28);
-      overflow: hidden;
-    }
-
-    .section-head {
-      padding: 18px 22px;
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 16px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
-      border-bottom: 1px solid var(--border);
-    }
-    .section-head h2 { margin: 0; font-size: 16px; letter-spacing: 0.6px; text-transform: uppercase; }
-    .section-head .hint { margin: 0; color: var(--muted); font-size: 13px; }
-
-    .posts { padding: 16px 16px 6px; display: grid; gap: 14px; }
-
-    /* POST CARD */
-    article.post {
-      padding: 16px;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.025));
-    }
-    .post-head {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .post-title {
-      margin: 0;
-      font-size: 16px;
-      letter-spacing: 0.2px;
-    }
-    .meta {
-      color: var(--muted);
-      font-size: 12.5px;
-      display: inline-flex;
-      gap: 10px;
-      align-items: center;
-      white-space: nowrap;
-    }
-    .tag {
-      padding: 4px 10px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      background: rgba(255,255,255,0.03);
-      color: var(--muted);
-      font-size: 12px;
-    }
-    .post p { margin: 10px 0 0; color: rgba(255,255,255,0.82); }
-
-    /* MEDIA */
-    figure { margin: 12px 0 0; }
-    figcaption { margin-top: 8px; color: var(--muted); font-size: 12.5px; }
-
-    .media-img {
-      width: 100%;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      display: block;
-      background: rgba(255,255,255,0.02);
-    }
-
-    .embed {
-      position: relative;
-      width: 100%;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.02);
-      aspect-ratio: 16 / 9;
-    }
-    .embed iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-
-    video.media-video {
-      width: 100%;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.02);
-    }
-
-    footer {
-      margin-top: 26px;
-      color: var(--muted);
-      font-size: 12.5px;
-      text-align: center;
-      padding: 10px 0;
-    }
-
-    /* small screens */
-    @media (max-width: 680px) {
-      header { flex-direction: column; }
-      nav { justify-content: flex-start; }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
   <div class="wrap">
-    <header>
+    <header class="masthead">
       <div class="brand">
-        <h1>Diff Bio Development Blog</h1>
+        <p class="eyebrow">Diff Bio</p>
+        <h1>Development Blog</h1>
         <p>Follow along with developmental updates on Robotics, Software, and Science.</p>
-        <p>This blog was born over winter holiday vacation as an opportunity to track and demonstrate our technical progress through hackathon effots.</p>
-        
+        <p class="muted">This blog was born over winter holiday vacation as an opportunity to track and demonstrate our technical progress through hackathon efforts.</p>
       </div>
 
       <nav>
+        <a class="pill" href="#pinned"><span class="dot"></span>Highlighted</a>
         <a class="pill" href="#robotics"><span class="dot"></span>Robotics</a>
         <a class="pill" href="#software"><span class="dot"></span>Software</a>
         <a class="pill" href="#science"><span class="dot"></span>Science</a>
       </nav>
     </header>
 
+    <section id="pinned" class="section pinned-section collapsible" data-collapsible data-start-open="true">
+      <div class="section-head">
+        <div>
+          <h2>Highlighted Posts</h2>
+        </div>
+        <div class="section-actions">
+          <div class="chip-row">
+            <!-- <span class="chip filled">Rail Robot</span> -->
+          </div>
+          <button class="section-toggle" type="button" aria-expanded="false" aria-controls="pinned-body">
+            <span class="chevron"></span>
+            <span class="toggle-label">Expand</span>
+          </button>
+        </div>
+      </div>
+      <div class="section-body" id="pinned-body">
+        <div class="pinned-grid">
+          <article class="post pinned-card">
+            <!-- <div class="pin-badge">Pinned</div> -->
+            <div class="meta">
+              <span>Jan 3, 2025</span>
+              <span class="tag">Rail Robot - Holiday Hackathon</span>
+            </div>
+            <h3 class="post-title">Demo Pick and Place</h3>
+            <p>End-to-end plate transfer along the rail with the cam lift redesign, driven by the SBC real-time loop.</p>
+            <a class="subtle-link" href="#post-demo-pick">Jump to full post</a>
+          </article>
+          <article class="post pinned-card">
+            <!-- <div class="pin-badge">Pinned</div> -->
+            <div class="meta">
+              <span>Dec 27, 2025</span>
+              <span class="tag">Rail Robot - Holiday Hackathon</span>
+            </div>
+            <h3 class="post-title">Rail Robot Speed Testing</h3>
+            <p>Speed testing of preliminary rail system</p>
+            <a class="subtle-link" href="#post-speed">Jump to full post</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <main>
       <!-- ===================== ROBOTICS ===================== -->
-      <section id="robotics">
+      <section id="robotics" class="section timeline-section collapsible" data-collapsible data-start-open="true">
         <div class="section-head">
-          <h2>Robotics</h2>
-          <p class="hint">Builds, Mechanisms, Lab Automation</p>
+          <div>
+            <p class="eyebrow">Timeline</p>
+            <h2>Robotics</h2>
+            <p class="hint">Builds, mechanisms, and lab automation notes.</p>
+            <p>
+              The primary project featured here is the Rail Robot - Holiday Hackathon. All existing automation systems we've observed are dependent on a 6DOF robotic
+              arm which picks and places plates into various machines. As we want our automation system to more closely resemble a manufacturing line, we hacked together a cost-effective
+              prototype to start laying groundwork for a linear layout. The concept: demonstrate a plate moving rail system that can slide a plate through
+              the open body of a liquid handling robot, de-risking the motion platform, actuation mechanisms, and software control architecture.
+            </p>
+            <p>
+              Software-wise this platform is built on an embedded Linux computer and employs the pseudo-real-time cooperative C++ loop discussed in our architecture documentation.
+              While this preliminary design omits much of the redundancy and fault-tolerance required for a production product, it enables exploration of sensors,
+              actuation mechanisms, and design decisions that will shape the production system. The demo is a simple pick and place operation between two stations,
+              but the design is extensible to more complex operations with more robust mechanisms and sensor integration.
+            </p>
+          </div>
+          <div class="section-actions">
+            <!-- <div class="chip-row">
+              <span class="chip">Rail Robot</span>
+              <span class="chip">Holiday Hackathon</span>
+            </div> -->
+            <button class="section-toggle" type="button" aria-expanded="false" aria-controls="robotics-body">
+              <span class="chevron"></span>
+              <span class="toggle-label">Expand</span>
+            </button>
+          </div>
         </div>
-          
-        <article class="post">
-        <p>
-          The primary project featured in this section is the Rail Robot - Holiday Hackathon which took place over a 2 week period during part time opportunistic periods. All existing automation systems we've observed are dependent on a 6DOF robotic
-          arm which picks and places plates into various machines. As we want our automation system to closer ressemble a manufacturing line, we wanted to hackathon a cost-effective
-          prototype which would start to lay the ground work for the linear/sequential layout. The concept is to demonstrate a plate moving rail system that can slide a plate through
-          the open body of a liquid handling robot. The intent is to derisk the linear motion platform design, actuation mechanisms, and software control architecture that would ultimately be used.
-        </p>
-        <p>
-          Software-wise this platform is to be build on a embedded-linux computer and employ the pseudo-real-time cooperative C++ loop discussed in our architecture documentation.
-          While this preliminary design will omit much of the redundancy and fault-tolerance required for a production product, as a platform it will enable to expore various sensors
-          options, actuation mechanisms, and design decision that will ultimately shape the production design. The demo system is a very simple pick and place operation between two stations,
-          but the design is extensible to more complex operations with more robust mechanism designs and sensor integration.
-        </p>
-        </article>
 
+        <div class="section-body" id="robotics-body">
+        <div class="timeline">
 
-        <div class="posts">
-
-          <!-- ===== COPY/PASTE POST BLOCK (START) ===== -->
-          <article class="post">
-            <div class="post-head">
-              <h3 class="post-title">Demo Pick and Place</h3>
+          <article class="post timeline-card pinned" id="post-demo-pick">
+            <div class="timeline-meta">
+              <span class="timeline-dot"></span>
               <div class="meta">
-                <span>1.3.2025</span>
+                <span class="date">Jan 3, 2025</span>
                 <span class="tag">Rail Robot - Holiday Hackathon</span>
               </div>
             </div>
-
+            <h3 class="post-title">Demo Pick and Place</h3>
             <p>
               This is a demo of the rail robot performing a pick and place operation. The cart moves along the rail to the first station, lowers the lift mechanism to pick up
               the plate, then moves to the second station and lowers the lift mechanism to deposit the plate. The entire operation is controlled by a single-board computer
               running a real-time C++ control loop. The speed and acceleration of the cart is controlled to ensure smooth movement and prevent dropping the plate and the lift
-              mechanism is designed is a simple cam mechanism driven by a servo motor without any additional sensors or latching. This approach and be further improved with the addition
+              mechanism is a simple cam mechanism driven by a servo motor without any additional sensors or latching. This approach can be further improved with the addition
               of sensors to detect plate presence and ensure proper placement.
             </p>
 
@@ -271,19 +125,17 @@
               <source src="content/speed_test_place.mp4" type="video/mp4" />
               Sorry, your browser doesn’t support embedded videos.
             </video>
-          
           </article>
-          <!-- ===== COPY/PASTE POST BLOCK (END) ===== -->
 
-          <!-- ===== COPY/PASTE POST BLOCK (START) ===== -->
-          <article class="post">
-            <div class="post-head">
-              <h3 class="post-title">Simple Station Design</h3>
+          <article class="post timeline-card" id="post-station">
+            <div class="timeline-meta">
+              <span class="timeline-dot"></span>
               <div class="meta">
-                <span>1.2.2025</span>
+                <span class="date">Jan 2, 2025</span>
                 <span class="tag">Rail Robot - Holiday Hackathon</span>
               </div>
             </div>
+            <h3 class="post-title">Simple Station Design</h3>
 
             <p>
               To facilitate plate placement and pickup, I designed a simple station which can be 3D printed. The station has a lip which extends over the rail, allowing the
@@ -295,19 +147,17 @@
             <figure>
               <img class="media-img" src="content/simple_station.png" alt="simple station design" />
             </figure>
-          
           </article>
-          <!-- ===== COPY/PASTE POST BLOCK (END) ===== -->
 
-          <!-- ===== COPY/PASTE POST BLOCK (START) ===== -->
-          <article class="post">
-            <div class="post-head">
-              <h3 class="post-title">Cam Lift Redesign</h3>
+          <article class="post timeline-card" id="post-cam-lift">
+            <div class="timeline-meta">
+              <span class="timeline-dot"></span>
               <div class="meta">
-                <span>1.1.2025</span>
+                <span class="date">Jan 1, 2025</span>
                 <span class="tag">Rail Robot - Holiday Hackathon</span>
               </div>
             </div>
+            <h3 class="post-title">Cam Lift Redesign</h3>
 
             <p>
               The scissor lift mechanism I initially designed for lifting the plates was not sufficiently rigid, and introduced too much torque on the plastic parts.
@@ -319,19 +169,17 @@
               <img class="media-img" src="content/cam_lift.png" alt="cam lift design" />
               <img class="media-img" src="content/plate_holding.jpg" alt="cam lift design" />
             </figure>
-          
           </article>
-          <!-- ===== COPY/PASTE POST BLOCK (END) ===== -->
 
-          <!-- ===== COPY/PASTE POST BLOCK (START) ===== -->
-          <article class="post">
-            <div class="post-head">
-              <h3 class="post-title">Wire Clean Up Effort</h3>
+          <article class="post timeline-card pinned" id="post-wire-clean">
+            <div class="timeline-meta">
+              <span class="timeline-dot"></span>
               <div class="meta">
-                <span>12.27.2025</span>
+                <span class="date">Dec 27, 2025</span>
                 <span class="tag">Rail Robot - Holiday Hackathon</span>
               </div>
             </div>
+            <h3 class="post-title">Wire Clean Up Effort</h3>
 
             <p>
               Now that the rail robot prototype is consistently up and running, it felt like a good opportunity to clean up the wiring and move away from dupont cables.
@@ -357,20 +205,17 @@
             <figure>
               <img class="media-img" src="content/board_back.jpg" alt="consolidation of electrical design" />
             </figure>
-
-          
           </article>
-          <!-- ===== COPY/PASTE POST BLOCK (END) ===== -->
 
-          <!-- ===== COPY/PASTE POST BLOCK (START) ===== -->
-          <article class="post">
-            <div class="post-head">
-              <h3 class="post-title">Rail Robot Speed Testing</h3>
+          <article class="post timeline-card" id="post-speed">
+            <div class="timeline-meta">
+              <span class="timeline-dot"></span>
               <div class="meta">
-                <span>12.26.2025</span>
+                <span class="date">Dec 26, 2025</span>
                 <span class="tag">Rail Robot - Holiday Hackathon</span>
               </div>
             </div>
+            <h3 class="post-title">Rail Robot Speed Testing</h3>
 
             <p>
               This is the result of preliminary speed testing for the rail system robot. Using the real-time C++ control library I was able to split actuator control
@@ -389,23 +234,21 @@
               <source src="content/speed_test.mp4" type="video/mp4" />
               Sorry, your browser doesn’t support embedded videos.
             </video>
-          
           </article>
-          <!-- ===== COPY/PASTE POST BLOCK (END) ===== -->
 
-          <!-- ===== COPY/PASTE POST BLOCK (START) ===== -->
-          <article class="post">
-            <div class="post-head">
-              <h3 class="post-title">CAD Design and Iteration</h3>
+          <article class="post timeline-card" id="post-cad">
+            <div class="timeline-meta">
+              <span class="timeline-dot"></span>
               <div class="meta">
-                <span>12.21.2025</span>
+                <span class="date">Dec 21, 2025</span>
                 <span class="tag">Rail Robot - Holiday Hackathon</span>
               </div>
             </div>
+            <h3 class="post-title">CAD Design and Iteration</h3>
 
             <p>
               I designed the entire system in CAD before writing software and assembling any hardware. The metal rails and ball bearing wheels were ordered, but all other
-              mechanical parts can be 3D printed. I modeled the metal parts and was able to form sub-assemblies in CAD to capture mechnical interations between the parts.
+              mechanical parts can be 3D printed. I modeled the metal parts and was able to form sub-assemblies in CAD to capture mechanical interactions between the parts.
               I deviated a bit from the initial drawings with respect to the location of the gear rail and position of the actuators. Because the servos arrived with extremely
               long phase cables, I decided to keep the single board computer off the cart for initial testing.
             </p>
@@ -419,25 +262,23 @@
               <img class="media-img" src="content/cad2.png" alt="" />
               <img class="media-img" src="content/cad3.png" alt="" />
             </figure>
-          
           </article>
-          <!-- ===== COPY/PASTE POST BLOCK (END) ===== -->
 
-          <!-- ===== COPY/PASTE POST BLOCK (START) ===== -->
-          <article class="post">
-            <div class="post-head">
-              <h3 class="post-title">Initial Demo Sketches & Designs</h3>
+          <article class="post timeline-card" id="post-sketches">
+            <div class="timeline-meta">
+              <span class="timeline-dot"></span>
               <div class="meta">
-                <span>12.18.2025</span>
+                <span class="date">Dec 18, 2025</span>
                 <span class="tag">Rail Robot - Holiday Hackathon</span>
               </div>
             </div>
+            <h3 class="post-title">Initial Demo Sketches & Designs</h3>
 
             <p> 
-              I intially sketched out the rough design for the holiday hackaton. I'll buy metal rails and suspend them using PLA, 3D printed stands. The computer,
+              I initially sketched out the rough design for the holiday hackathon. I'll buy metal rails and suspend them using PLA, 3D printed stands. The computer,
               actuators, and lifting mechanism should be mounted on the bottom of the cart, leaving the top to hold the plate. The preliminary idea is to use a spooling
               mechanism with a scissor lift to place the plates onto stations which stick out over the track. The cart can lift the plates prior to arrival and then lower
-              the lifting mecahnism in order to leave the plate at the station. This enabled picking and placing plates without addition external mechanisms at each station
+              the lifting mechanism in order to leave the plate at the station. This enabled picking and placing plates without additional external mechanisms at each station
               and is sufficient for the demo.
             </p>
 
@@ -445,88 +286,83 @@
               <img class="media-img" src="content/sketch1.png" alt="" />
               <img class="media-img" src="content/sketch2.png" alt="" />
             </figure>
-          
           </article>
-          <!-- ===== COPY/PASTE POST BLOCK (END) ===== -->
-
+        </div>
         </div>
       </section>
 
       <!-- ===================== SOFTWARE ===================== -->
-      <section id="software">
+      <section id="software" class="section timeline-section collapsible" data-collapsible>
         <div class="section-head">
-          <h2>Software</h2>
-          <p class="hint">Tools, build systems, code patterns, notes</p>
+          <div>
+            <p class="eyebrow">Timeline</p>
+            <h2>Software</h2>
+            <p class="hint">Tools, build systems, code patterns, notes.</p>
+            <span class="chip">Coming soon</span>
+          </div>
+          <div class="section-actions">
+            <div class="chip-row">
+              <!-- <span class="chip">Coming soon</span> -->
+            </div>
+            <!-- <button class="section-toggle" type="button" aria-expanded="false" aria-controls="software-body">
+              <span class="chevron"></span>
+              <span class="toggle-label">Expand</span>
+            </button> -->
+          </div>
         </div>
 
-        <div class="posts">
-          
-          <!-- <article class="post">
-            <div class="post-head">
-              <h3 class="post-title">Tiny “post template” for fast writing</h3>
+        <!-- <div class="section-body" id="software-body">
+        <div class="timeline placeholder">
+          <article class="post timeline-card">
+            <div class="timeline-meta">
+              <span class="timeline-dot"></span>
               <div class="meta">
-                <span>2025-12-28</span>
-                <span class="tag">template</span>
+                <span class="date">Queued</span>
+                <span class="tag">Roadmap</span>
               </div>
-            </div> -->
-
-            <!-- <p>
-              Duplicate a post card, change the title/date/tag, then optionally add an image, embed, or video file.
-            </p> -->
-
-            <!-- Image example -->
-            <!-- <figure>
-              <img class="media-img" src="images/robotics-gripper.jpg" alt="Gripper test rig photo" />
-              <figcaption>Drop an image in <code>images/</code> and set <code>src</code>.</figcaption>
-            </figure> -->
-
-            <!-- YouTube/Vimeo embed example -->
-            <!-- <figure class="embed" aria-label="Video embed">
-              <iframe
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                title="Video"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen>
-              </iframe>
-            </figure> -->
-
-            <!-- Native video file example -->
-            <!-- <figure>
-              <video class="media-video" controls preload="metadata">
-                <source src="videos/demo.mp4" type="video/mp4" />
-                Sorry, your browser doesn’t support embedded videos.
-              </video>
-              <figcaption>Put video files in <code>videos/</code> and update the <code>src</code>.</figcaption>
-            </figure>
-          </article> -->
-
+            </div>
+            <h3 class="post-title">Software posts coming next</h3>
+            <p>Drop new posts here to have them show up in the timeline. Add <code>class="pinned"</code> to flag them for the banner above.</p>
+          </article>
         </div>
+        </div> -->
       </section>
 
       <!-- ===================== SCIENCE ===================== -->
-      <section id="science">
+      <section id="science" class="section timeline-section collapsible" data-collapsible>
         <div class="section-head">
-          <h2>Science</h2>
-          <p class="hint">Papers, experiments, measurement notes</p>
+          <div>
+            <p class="eyebrow">Timeline</p>
+            <h2>Science</h2>
+            <p class="hint">Papers, experiments, and measurement notes.</p>
+            <span class="chip">Coming soon</span>
+          </div>
+          <div class="section-actions">
+            <div class="chip-row">
+              <!-- <span class="chip">Coming soon</span> -->
+            </div>
+            <!-- <button class="section-toggle" type="button" aria-expanded="false" aria-controls="science-body">
+              <span class="chevron"></span>
+              <span class="toggle-label">Expand</span>
+            </button> -->
+          </div>
         </div>
 
-        <div class="posts">
-          
-          <!-- <article class="post">
-            <div class="post-head">
-              <h3 class="post-title">Experiment log structure</h3>
+        <!-- <div class="section-body" id="science-body">
+        <div class="timeline placeholder">
+          <article class="post timeline-card">
+            <div class="timeline-meta">
+              <span class="timeline-dot"></span>
               <div class="meta">
-                <span>2025-12-28</span>
-                <span class="tag">notes</span>
+                <span class="date">Queued</span>
+                <span class="tag">Roadmap</span>
               </div>
             </div>
-
-            <p>
-              Keep it boring: hypothesis → method → data → conclusion → next steps. Attach plots as images.
-            </p>
-          </article> -->
-
+            <h3 class="post-title">Science posts coming next</h3>
+            <p>Keep it boring: hypothesis → method → data → conclusion → next steps. Pin any you want to live in the top banner.</p>
+          </article>
         </div>
+        </div> -->
       </section>
     </main>
 
@@ -538,7 +374,58 @@
   <script>
     // Auto-year in footer (optional)
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Collapsible controls
+    const collapsibleSections = Array.from(document.querySelectorAll("[data-collapsible]"));
+    const sectionControllers = new Map();
+
+    collapsibleSections.forEach((section) => {
+      const toggle = section.querySelector(".section-toggle");
+      const body = section.querySelector(".section-body");
+      const label = toggle?.querySelector(".toggle-label");
+      if (!toggle || !body || !label) return;
+
+      const setState = (expanded) => {
+        section.classList.toggle("collapsed", !expanded);
+        toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+        toggle.classList.toggle("expanded", expanded);
+        label.textContent = expanded ? "Collapse" : "Expand";
+      };
+
+      sectionControllers.set(section, { toggle, setState });
+      setState(section.dataset.startOpen === "true");
+
+      toggle.addEventListener("click", () => {
+        const currentlyExpanded = toggle.getAttribute("aria-expanded") === "true";
+        setState(!currentlyExpanded);
+      });
+    });
+
+    const ensureSectionExpanded = (section) => {
+      const controller = sectionControllers.get(section);
+      if (controller) controller.setState(true);
+    };
+
+    // Nav links open their target section if it's collapsed
+    document.querySelectorAll("nav a[href^='#']").forEach((link) => {
+      link.addEventListener("click", () => {
+        const targetId = link.getAttribute("href").slice(1);
+        const targetSection = document.getElementById(targetId);
+        if (!targetSection || !targetSection.classList.contains("collapsed")) return;
+        ensureSectionExpanded(targetSection);
+      });
+    });
+
+    // Highlighted post jumps also expand their section targets
+    document.querySelectorAll(".pinned-grid a[href^='#']").forEach((link) => {
+      link.addEventListener("click", () => {
+        const targetId = link.getAttribute("href").slice(1);
+        const targetEl = document.getElementById(targetId);
+        if (!targetEl) return;
+        const parentSection = targetEl.closest("section[data-collapsible]");
+        if (parentSection) ensureSectionExpanded(parentSection);
+      });
+    });
   </script>
 </body>
 </html>
-
