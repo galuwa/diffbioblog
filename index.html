@@ -120,6 +120,13 @@
               design drives the TMCs with step/dir GPIO, but moving to UART will give us access to more robust control and advanced features present in the
               register configuration.
             </p>
+            <p>
+              Using the Pi Zero W gives us a convenient Linux platform with wireless connectivity, but it's not the ideal real-time control computer.
+              For preliminary development, I think it's sufficient, and my research indicates we can expect IO latencies on the order of a few milliseconds with
+              a well configured system. As out control cycle is constrained to 100Hz, this is sufficient for the time-being. Moving forward, I would like to explore
+              more robust real-time platforms, possibly an RTOS or microcontroller-based solution. The Pi could be a Linux interface computer which communicates
+              with an STM32 or similar microcontroller over SPI or UART to offload real-time control tasks.
+            </p>
 
             <figure>
               <img class="media-img" src="content/robot_v1p1_schematic.png" alt="looking forward" />
