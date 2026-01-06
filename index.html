@@ -104,6 +104,28 @@
         <div class="section-body" id="robotics-body">
         <div class="timeline">
 
+          <article class="post timeline-card" id="post-station">
+            <div class="timeline-meta">
+              <span class="timeline-dot"></span>
+              <div class="meta">
+                <span class="date">Jan 5, 2025</span>
+                <span class="tag">Rail Robot - Holiday Hackathon</span>
+              </div>
+            </div>
+            <h3 class="post-title">Rethinking Robot Design Moving Forward</h3>
+
+            <p>
+              Starting to brainstorm improvements to the architecture - NFC station detection, ADC to enable analog hall effect sensors for lift position feedback.
+              Using MOSFET AND gates, I can drive the motor enable pin based on an ESTOP, specific motor operation and overall fault detection state. The current
+              design drives the TMCs with step/dir GPIO, but moving to UART will give us access to more robust control and advanced features present in the
+              register configuration.
+            </p>
+
+            <figure>
+              <img class="media-img" src="content/robot_v1p1_schematic.png" alt="looking forward" />
+            </figure>
+          </article>
+
           <article class="post timeline-card pinned" id="post-demo-pick">
             <div class="timeline-meta">
               <span class="timeline-dot"></span>
