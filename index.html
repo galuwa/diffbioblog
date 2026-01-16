@@ -19,441 +19,477 @@
         <p class="muted">This blog was born over winter holiday vacation as an opportunity to track and demonstrate our technical progress through hackathon efforts.</p>
       </div>
 
-      <nav>
-        <a class="pill" href="#pinned"><span class="dot"></span>Highlighted</a>
-        <a class="pill" href="#robotics"><span class="dot"></span>Robotics</a>
-        <a class="pill" href="#software"><span class="dot"></span>Software</a>
-        <a class="pill" href="#science"><span class="dot"></span>Science</a>
-      </nav>
     </header>
 
-    <section id="pinned" class="section pinned-section collapsible" data-collapsible data-start-open="true">
+    <div class="content-area">
+      <div class="pinned-area">
       <div class="section-head">
         <div>
           <h2>Highlighted Posts</h2>
-        </div>
-        <div class="section-actions">
-          <div class="chip-row">
-            <!-- <span class="chip filled">Rail Robot</span> -->
-          </div>
-          <button class="section-toggle" type="button" aria-expanded="false" aria-controls="pinned-body">
-            <span class="chevron"></span>
-            <span class="toggle-label">Expand</span>
-          </button>
+          <p class="hint">Snackable previews from the latest robot builds</p>
         </div>
       </div>
-      <div class="section-body" id="pinned-body">
-        <div class="pinned-grid">
-          <article class="post pinned-card">
-            <!-- <div class="pin-badge">Pinned</div> -->
-            <div class="meta">
-              <span>Jan 3, 2025</span>
-              <span class="tag">Rail Robot - Holiday Hackathon</span>
-            </div>
-            <h3 class="post-title">Demo Pick and Place</h3>
-            <p>End-to-end plate transfer along the rail with the cam lift redesign, driven by the SBC real-time loop.</p>
-            <a class="subtle-link" href="#post-demo-pick">Jump to full post</a>
-          </article>
-          <article class="post pinned-card">
-            <!-- <div class="pin-badge">Pinned</div> -->
-            <div class="meta">
-              <span>Dec 27, 2025</span>
-              <span class="tag">Rail Robot - Holiday Hackathon</span>
-            </div>
-            <h3 class="post-title">Rail Robot Speed Testing</h3>
-            <p>Speed testing of preliminary rail system</p>
-            <a class="subtle-link" href="#post-speed">Jump to full post</a>
-          </article>
-        </div>
+      <div class="pinned-grid">
+        <article class="post pinned-card" data-tags="robotics" data-date="Jan 3, 2025">
+          <div class="meta">
+            <span>Jan 3, 2025</span>
+            <span class="tag">Rail Robot - Holiday Hackathon</span>
+          </div>
+          <h3 class="post-title">Demo Pick and Place</h3>
+          <p>End-to-end plate transfer along the rail with the cam lift redesign, driven by the SBC real-time loop.</p>
+          <video class="media-video pinned-media" autoplay muted loop playsinline>
+            <source src="content/speed_test_place.mp4" type="video/mp4" />
+            Your browser does not support autoplaying video.
+          </video>
+          <a class="subtle-link" href="#post-demo-pick">Jump to full post</a>
+        </article>
+        <article class="post pinned-card" data-tags="robotics" data-date="Dec 27, 2025">
+          <div class="meta">
+            <span>Dec 27, 2025</span>
+            <span class="tag">Rail Robot - Holiday Hackathon</span>
+          </div>
+          <h3 class="post-title">Rail Robot Speed Testing</h3>
+          <p>Speed testing of preliminary rail system</p>
+          <video class="media-video pinned-media" autoplay muted loop playsinline>
+            <source src="content/speed_test.mp4" type="video/mp4" />
+            Your browser does not support autoplaying video.
+          </video>
+          <a class="subtle-link" href="#post-speed">Jump to full post</a>
+        </article>
       </div>
-    </section>
+    </div>
 
-    <main>
-      <!-- ===================== ROBOTICS ===================== -->
-      <section id="robotics" class="section timeline-section collapsible" data-collapsible data-start-open="true">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Timeline</p>
-            <h2>Robotics</h2>
-            <p class="hint">Builds, mechanisms, and lab automation notes.</p>
-            <p>
-              The primary project featured here is the Rail Robot - Holiday Hackathon. All existing automation systems we've observed are dependent on a 6DOF robotic
-              arm which picks and places plates into various machines. As we want our automation system to more closely resemble a manufacturing line, we hacked together a cost-effective
-              prototype to start laying groundwork for a linear layout. The concept: demonstrate a plate moving rail system that can slide a plate through
-              the open body of a liquid handling robot, de-risking the motion platform, actuation mechanisms, and software control architecture.
-            </p>
-            <p>
-              Software-wise this platform is built on an embedded Linux computer and employs the pseudo-real-time cooperative C++ loop discussed in our architecture documentation.
-              While this preliminary design omits much of the redundancy and fault-tolerance required for a production product, it enables exploration of sensors,
-              actuation mechanisms, and design decisions that will shape the production system. The demo is a simple pick and place operation between two stations,
-              but the design is extensible to more complex operations with more robust mechanisms and sensor integration.
-            </p>
+    <div class="layout">
+      <main class="feed" id="feed">
+        <article class="post timeline-card" id="post-rethinking" data-tags="robotics" data-date="Jan 5, 2025">
+          <div class="timeline-meta">
+            <span class="timeline-dot"></span>
+            <div class="meta">
+              <span class="date">Jan 5, 2025</span>
+              <span class="tag">Rail Robot - Holiday Hackathon</span>
+            </div>
           </div>
-          <div class="section-actions">
-            <!-- <div class="chip-row">
-              <span class="chip">Rail Robot</span>
-              <span class="chip">Holiday Hackathon</span>
-            </div> -->
-            <button class="section-toggle" type="button" aria-expanded="false" aria-controls="robotics-body">
-              <span class="chevron"></span>
-              <span class="toggle-label">Expand</span>
-            </button>
+          <h3 class="post-title">Rethinking Robot Design Moving Forward</h3>
+
+          <p>
+            Starting to brainstorm improvements to the architecture - NFC station detection, ADC to enable analog hall effect sensors for lift position feedback.
+            Using MOSFET AND gates, I can drive the motor enable pin based on an ESTOP, specific motor operation and overall fault detection state. The current
+            design drives the TMCs with step/dir GPIO, but moving to UART will give us access to more robust control and advanced features present in the
+            register configuration.
+          </p>
+          <p>
+            Using the Pi Zero W gives us a convenient Linux platform with wireless connectivity, but it's not the ideal real-time control computer.
+            For preliminary development, I think it's sufficient, and my research indicates we can expect IO latencies on the order of a few milliseconds with
+            a well configured system. As our control cycle is constrained to 100Hz, this is sufficient for the time-being. Moving forward, I would like to explore
+            more robust real-time platforms, possibly an RTOS or microcontroller-based solution. The Pi could be a Linux interface computer which communicates
+            with an STM32 or similar microcontroller over SPI or UART to offload real-time control tasks.
+          </p>
+
+          <figure>
+            <img class="media-img" src="content/robot_v1p1_schematic.png" alt="looking forward" />
+          </figure>
+        </article>
+
+        <article class="post timeline-card pinned" id="post-demo-pick" data-tags="robotics" data-date="Jan 3, 2025">
+          <div class="timeline-meta">
+            <span class="timeline-dot"></span>
+            <div class="meta">
+              <span class="date">Jan 3, 2025</span>
+              <span class="tag">Rail Robot - Holiday Hackathon</span>
+            </div>
           </div>
-        </div>
+          <h3 class="post-title">Demo Pick and Place</h3>
+          <p>
+            This is a demo of the rail robot performing a pick and place operation. The cart moves along the rail to the first station, lowers the lift mechanism to pick up
+            the plate, then moves to the second station and lowers the lift mechanism to deposit the plate. The entire operation is controlled by a single-board computer
+            running a real-time C++ control loop. The speed and acceleration of the cart is controlled to ensure smooth movement and prevent dropping the plate and the lift
+            mechanism is a simple cam mechanism driven by a servo motor without any additional sensors or latching. This approach can be further improved with the addition
+            of sensors to detect plate presence and ensure proper placement.
+          </p>
 
-        <div class="section-body" id="robotics-body">
-        <div class="timeline">
+          <video class="media-video" controls preload="metadata">
+            <source src="content/speed_test_place.mp4" type="video/mp4" />
+            Sorry, your browser doesn't support embedded videos.
+          </video>
+        </article>
 
-          <article class="post timeline-card" id="post-station">
-            <div class="timeline-meta">
-              <span class="timeline-dot"></span>
-              <div class="meta">
-                <span class="date">Jan 5, 2025</span>
-                <span class="tag">Rail Robot - Holiday Hackathon</span>
-              </div>
+        <article class="post timeline-card" id="post-station" data-tags="robotics" data-date="Jan 2, 2025">
+          <div class="timeline-meta">
+            <span class="timeline-dot"></span>
+            <div class="meta">
+              <span class="date">Jan 2, 2025</span>
+              <span class="tag">Rail Robot - Holiday Hackathon</span>
             </div>
-            <h3 class="post-title">Rethinking Robot Design Moving Forward</h3>
-
-            <p>
-              Starting to brainstorm improvements to the architecture - NFC station detection, ADC to enable analog hall effect sensors for lift position feedback.
-              Using MOSFET AND gates, I can drive the motor enable pin based on an ESTOP, specific motor operation and overall fault detection state. The current
-              design drives the TMCs with step/dir GPIO, but moving to UART will give us access to more robust control and advanced features present in the
-              register configuration.
-            </p>
-            <p>
-              Using the Pi Zero W gives us a convenient Linux platform with wireless connectivity, but it's not the ideal real-time control computer.
-              For preliminary development, I think it's sufficient, and my research indicates we can expect IO latencies on the order of a few milliseconds with
-              a well configured system. As out control cycle is constrained to 100Hz, this is sufficient for the time-being. Moving forward, I would like to explore
-              more robust real-time platforms, possibly an RTOS or microcontroller-based solution. The Pi could be a Linux interface computer which communicates
-              with an STM32 or similar microcontroller over SPI or UART to offload real-time control tasks.
-            </p>
-
-            <figure>
-              <img class="media-img" src="content/robot_v1p1_schematic.png" alt="looking forward" />
-            </figure>
-          </article>
-
-          <article class="post timeline-card pinned" id="post-demo-pick">
-            <div class="timeline-meta">
-              <span class="timeline-dot"></span>
-              <div class="meta">
-                <span class="date">Jan 3, 2025</span>
-                <span class="tag">Rail Robot - Holiday Hackathon</span>
-              </div>
-            </div>
-            <h3 class="post-title">Demo Pick and Place</h3>
-            <p>
-              This is a demo of the rail robot performing a pick and place operation. The cart moves along the rail to the first station, lowers the lift mechanism to pick up
-              the plate, then moves to the second station and lowers the lift mechanism to deposit the plate. The entire operation is controlled by a single-board computer
-              running a real-time C++ control loop. The speed and acceleration of the cart is controlled to ensure smooth movement and prevent dropping the plate and the lift
-              mechanism is a simple cam mechanism driven by a servo motor without any additional sensors or latching. This approach can be further improved with the addition
-              of sensors to detect plate presence and ensure proper placement.
-            </p>
-
-            <video class="media-video" controls preload="metadata">
-              <source src="content/speed_test_place.mp4" type="video/mp4" />
-              Sorry, your browser doesn’t support embedded videos.
-            </video>
-          </article>
-
-          <article class="post timeline-card" id="post-station">
-            <div class="timeline-meta">
-              <span class="timeline-dot"></span>
-              <div class="meta">
-                <span class="date">Jan 2, 2025</span>
-                <span class="tag">Rail Robot - Holiday Hackathon</span>
-              </div>
-            </div>
-            <h3 class="post-title">Simple Station Design</h3>
-
-            <p>
-              To facilitate plate placement and pickup, I designed a simple station which can be 3D printed. The station has a lip which extends over the rail, allowing the
-              cart to position the plate over the station and then lower the lift mechanism to deposit the plate. The station is designed to be modular, allowing for multiple
-              stations to be placed along the rail as needed. This is the simplest possible design for the demo, but in a production system, we would want to incorporate sensors and possibly locking mechanisms to ensure
-              proper plate placement and security.
-            </p>
-
-            <figure>
-              <img class="media-img" src="content/simple_station.png" alt="simple station design" />
-            </figure>
-          </article>
-
-          <article class="post timeline-card" id="post-cam-lift">
-            <div class="timeline-meta">
-              <span class="timeline-dot"></span>
-              <div class="meta">
-                <span class="date">Jan 1, 2025</span>
-                <span class="tag">Rail Robot - Holiday Hackathon</span>
-              </div>
-            </div>
-            <h3 class="post-title">Cam Lift Redesign</h3>
-
-            <p>
-              The scissor lift mechanism I initially designed for lifting the plates was not sufficiently rigid, and introduced too much torque on the plastic parts.
-              I redesigned the lift to use a cam mechanism which is driven by a servo motor. This design is much more compact, rigid, and provides a smooth lifting motion.
-              The cam profile was designed to provide a gradual acceleration and deceleration of the lift, which minimizes the risk of dropping the plate during movement.
-            </p>
-
-            <figure>
-              <img class="media-img" src="content/cam_lift.png" alt="cam lift design" />
-              <img class="media-img" src="content/plate_holding.jpg" alt="cam lift design" />
-            </figure>
-          </article>
-
-          <article class="post timeline-card pinned" id="post-wire-clean">
-            <div class="timeline-meta">
-              <span class="timeline-dot"></span>
-              <div class="meta">
-                <span class="date">Dec 27, 2025</span>
-                <span class="tag">Rail Robot - Holiday Hackathon</span>
-              </div>
-            </div>
-            <h3 class="post-title">Wire Clean Up Effort</h3>
-
-            <p>
-              Now that the rail robot prototype is consistently up and running, it felt like a good opportunity to clean up the wiring and move away from dupont cables.
-              I replicated the breadboard setup on a solderable breadboard and added headers to interface with the 12V motor power, stepper phases, and station reed switches.
-              The board should remain fairly extensible, but is much more robust to accidents and cat interactions.
-            </p>
-            <p>
-              One of the more important changes was suspending the stepper motor phase wires above the rail mechanism, which ensures there is no tangling during operation.
-              This is ultimately one of the larger considerations for production design when trading a tethered vs. self contained solution which sources power from a rail.
-              For this demo, I wanted to keep the design as simple as possible which meant, keeping logical control components off the cart.
-            </p>
-
-            <figure>
-              <img class="media-img" src="content/rewire.jpg" alt="consolidation of electrical design" />
-            </figure>
-
-            <p>
-              I exposed headers for all connections to the single board computer, stepper motor, servos, and reed switches. This should make it easier to debug and reconfigure.
-            </p>
-            <figure>
-              <img class="media-img" src="content/board_front.jpg" alt="consolidation of electrical design" />
-            </figure>
-            <figure>
-              <img class="media-img" src="content/board_back.jpg" alt="consolidation of electrical design" />
-            </figure>
-          </article>
-
-          <article class="post timeline-card" id="post-speed">
-            <div class="timeline-meta">
-              <span class="timeline-dot"></span>
-              <div class="meta">
-                <span class="date">Dec 26, 2025</span>
-                <span class="tag">Rail Robot - Holiday Hackathon</span>
-              </div>
-            </div>
-            <h3 class="post-title">Rail Robot Speed Testing</h3>
-
-            <p>
-              This is the result of preliminary speed testing for the rail system robot. Using the real-time C++ control library I was able to split actuator control
-              into two components: StepperControl and PositionControl - the former is responsible for generating a pulse wave to the stepper phases, and handling the
-              various phases of acceleration/deceleration; The latter is responsible for high level system control of position and keeping a state machine of station
-              passage and direction.
-            </p>
-
-            <p>
-              This speed is highly dependent on the weight provided by the stepper motors - without additional rail clamping mechanisms, the acceleration must be a gradual
-              process, else the laterally offset gear will kick the cart off the track. Ultimately, we would want to center this mechanism or counteract the torque on a
-              production design.
-            </p>
-
-            <video class="media-video" controls preload="metadata">
-              <source src="content/speed_test.mp4" type="video/mp4" />
-              Sorry, your browser doesn’t support embedded videos.
-            </video>
-          </article>
-
-          <article class="post timeline-card" id="post-cad">
-            <div class="timeline-meta">
-              <span class="timeline-dot"></span>
-              <div class="meta">
-                <span class="date">Dec 21, 2025</span>
-                <span class="tag">Rail Robot - Holiday Hackathon</span>
-              </div>
-            </div>
-            <h3 class="post-title">CAD Design and Iteration</h3>
-
-            <p>
-              I designed the entire system in CAD before writing software and assembling any hardware. The metal rails and ball bearing wheels were ordered, but all other
-              mechanical parts can be 3D printed. I modeled the metal parts and was able to form sub-assemblies in CAD to capture mechanical interactions between the parts.
-              I deviated a bit from the initial drawings with respect to the location of the gear rail and position of the actuators. Because the servos arrived with extremely
-              long phase cables, I decided to keep the single board computer off the cart for initial testing.
-            </p>
-            <p> 
-              I designed a scissor lift mechanism for lifting the plates, but the existing design introduces too much torque on the plastic parts. This will need to be redesigned
-              with another gear system, but I will likely shelve work on that until I can complete motion platform testing, and demonstrate fluid movement.
-            </p>
-
-            <figure>
-              <img class="media-img" src="content/cad1.png" alt="" />
-              <img class="media-img" src="content/cad2.png" alt="" />
-              <img class="media-img" src="content/cad3.png" alt="" />
-            </figure>
-          </article>
-
-          <article class="post timeline-card" id="post-sketches">
-            <div class="timeline-meta">
-              <span class="timeline-dot"></span>
-              <div class="meta">
-                <span class="date">Dec 18, 2025</span>
-                <span class="tag">Rail Robot - Holiday Hackathon</span>
-              </div>
-            </div>
-            <h3 class="post-title">Initial Demo Sketches & Designs</h3>
-
-            <p> 
-              I initially sketched out the rough design for the holiday hackathon. I'll buy metal rails and suspend them using PLA, 3D printed stands. The computer,
-              actuators, and lifting mechanism should be mounted on the bottom of the cart, leaving the top to hold the plate. The preliminary idea is to use a spooling
-              mechanism with a scissor lift to place the plates onto stations which stick out over the track. The cart can lift the plates prior to arrival and then lower
-              the lifting mechanism in order to leave the plate at the station. This enabled picking and placing plates without additional external mechanisms at each station
-              and is sufficient for the demo.
-            </p>
-
-            <figure>
-              <img class="media-img" src="content/sketch1.png" alt="" />
-              <img class="media-img" src="content/sketch2.png" alt="" />
-            </figure>
-          </article>
-        </div>
-        </div>
-      </section>
-
-      <!-- ===================== SOFTWARE ===================== -->
-      <section id="software" class="section timeline-section collapsible" data-collapsible>
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Timeline</p>
-            <h2>Software</h2>
-            <p class="hint">Tools, build systems, code patterns, notes.</p>
-            <span class="chip">Coming soon</span>
           </div>
-          <div class="section-actions">
-            <div class="chip-row">
-              <!-- <span class="chip">Coming soon</span> -->
+          <h3 class="post-title">Simple Station Design</h3>
+
+          <p>
+            To facilitate plate placement and pickup, I designed a simple station which can be 3D printed. The station has a lip which extends over the rail, allowing the
+            cart to position the plate over the station and then lower the lift mechanism to deposit the plate. The station is designed to be modular, allowing for multiple
+            stations to be placed along the rail as needed. This is the simplest possible design for the demo, but in a production system, we would want to incorporate sensors and possibly locking mechanisms to ensure
+            proper plate placement and security.
+          </p>
+
+          <figure>
+            <img class="media-img" src="content/simple_station.png" alt="simple station design" />
+          </figure>
+        </article>
+
+        <article class="post timeline-card" id="post-cam-lift" data-tags="robotics" data-date="Jan 1, 2025">
+          <div class="timeline-meta">
+            <span class="timeline-dot"></span>
+            <div class="meta">
+              <span class="date">Jan 1, 2025</span>
+              <span class="tag">Rail Robot - Holiday Hackathon</span>
             </div>
-            <!-- <button class="section-toggle" type="button" aria-expanded="false" aria-controls="software-body">
-              <span class="chevron"></span>
-              <span class="toggle-label">Expand</span>
-            </button> -->
           </div>
-        </div>
+          <h3 class="post-title">Cam Lift Redesign</h3>
 
-        <!-- <div class="section-body" id="software-body">
-        <div class="timeline placeholder">
-          <article class="post timeline-card">
-            <div class="timeline-meta">
-              <span class="timeline-dot"></span>
-              <div class="meta">
-                <span class="date">Queued</span>
-                <span class="tag">Roadmap</span>
-              </div>
+          <p>
+            The scissor lift mechanism I initially designed for lifting the plates was not sufficiently rigid, and introduced too much torque on the plastic parts.
+            I redesigned the lift to use a cam mechanism which is driven by a servo motor. This design is much more compact, rigid, and provides a smooth lifting motion.
+            The cam profile was designed to provide a gradual acceleration and deceleration of the lift, which minimizes the risk of dropping the plate during movement.
+          </p>
+
+          <figure>
+            <img class="media-img" src="content/cam_lift.png" alt="cam lift design" />
+            <img class="media-img" src="content/plate_holding.jpg" alt="cam lift design" />
+          </figure>
+        </article>
+
+        <article class="post timeline-card" id="post-wire-clean" data-tags="robotics" data-date="Dec 27, 2025">
+          <div class="timeline-meta">
+            <span class="timeline-dot"></span>
+            <div class="meta">
+              <span class="date">Dec 27, 2025</span>
+              <span class="tag">Rail Robot - Holiday Hackathon</span>
             </div>
-            <h3 class="post-title">Software posts coming next</h3>
-            <p>Drop new posts here to have them show up in the timeline. Add <code>class="pinned"</code> to flag them for the banner above.</p>
-          </article>
-        </div>
-        </div> -->
-      </section>
-
-      <!-- ===================== SCIENCE ===================== -->
-      <section id="science" class="section timeline-section collapsible" data-collapsible>
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Timeline</p>
-            <h2>Science</h2>
-            <p class="hint">Papers, experiments, and measurement notes.</p>
-            <span class="chip">Coming soon</span>
           </div>
-          <div class="section-actions">
-            <div class="chip-row">
-              <!-- <span class="chip">Coming soon</span> -->
+          <h3 class="post-title">Wire Clean Up Effort</h3>
+
+          <p>
+            Now that the rail robot prototype is consistently up and running, it felt like a good opportunity to clean up the wiring and move away from dupont cables.
+            I replicated the breadboard setup on a solderable breadboard and added headers to interface with the 12V motor power, stepper phases, and station reed switches.
+            The board should remain fairly extensible, but is much more robust to accidents and cat interactions.
+          </p>
+          <p>
+            One of the more important changes was suspending the stepper motor phase wires above the rail mechanism, which ensures there is no tangling during operation.
+            This is ultimately one of the larger considerations for production design when trading a tethered vs. self contained solution which sources power from a rail.
+            For this demo, I wanted to keep the design as simple as possible which meant, keeping logical control components off the cart.
+          </p>
+
+          <figure>
+            <img class="media-img" src="content/rewire.jpg" alt="consolidation of electrical design" />
+          </figure>
+
+          <p>
+            I exposed headers for all connections to the single board computer, stepper motor, servos, and reed switches. This should make it easier to debug and reconfigure.
+          </p>
+          <figure>
+            <img class="media-img" src="content/board_front.jpg" alt="consolidation of electrical design" />
+          </figure>
+          <figure>
+            <img class="media-img" src="content/board_back.jpg" alt="consolidation of electrical design" />
+          </figure>
+        </article>
+
+        <article class="post timeline-card" id="post-speed" data-tags="robotics software" data-date="Dec 26, 2025">
+          <div class="timeline-meta">
+            <span class="timeline-dot"></span>
+            <div class="meta">
+              <span class="date">Dec 26, 2025</span>
+              <span class="tag">Rail Robot - Holiday Hackathon</span>
             </div>
-            <!-- <button class="section-toggle" type="button" aria-expanded="false" aria-controls="science-body">
-              <span class="chevron"></span>
-              <span class="toggle-label">Expand</span>
-            </button> -->
           </div>
-        </div>
+          <h3 class="post-title">Rail Robot Speed Testing</h3>
 
-        <!-- <div class="section-body" id="science-body">
-        <div class="timeline placeholder">
-          <article class="post timeline-card">
-            <div class="timeline-meta">
-              <span class="timeline-dot"></span>
-              <div class="meta">
-                <span class="date">Queued</span>
-                <span class="tag">Roadmap</span>
-              </div>
+          <p>
+            This is the result of preliminary speed testing for the rail system robot. Using the real-time C++ control library I was able to split actuator control
+            into two components: StepperControl and PositionControl - the former is responsible for generating a pulse wave to the stepper phases, and handling the
+            various phases of acceleration/deceleration; The latter is responsible for high level system control of position and keeping a state machine of station
+            passage and direction.
+          </p>
+          <p>
+            This speed is highly dependent on the weight provided by the stepper motors - without additional rail clamping mechanisms, the acceleration must be a gradual
+            process, else the laterally offset gear will kick the cart off the track. Ultimately, we would want to center this mechanism or counteract the torque on a
+            production design.
+          </p>
+
+          <video class="media-video" controls preload="metadata">
+            <source src="content/speed_test.mp4" type="video/mp4" />
+            Sorry, your browser doesn't support embedded videos.
+          </video>
+        </article>
+
+        <article class="post timeline-card" id="post-cad" data-tags="robotics" data-date="Dec 21, 2025">
+          <div class="timeline-meta">
+            <span class="timeline-dot"></span>
+            <div class="meta">
+              <span class="date">Dec 21, 2025</span>
+              <span class="tag">Rail Robot - Holiday Hackathon</span>
             </div>
-            <h3 class="post-title">Science posts coming next</h3>
-            <p>Keep it boring: hypothesis → method → data → conclusion → next steps. Pin any you want to live in the top banner.</p>
-          </article>
-        </div>
-        </div> -->
-      </section>
-    </main>
+          </div>
+          <h3 class="post-title">CAD Design and Iteration</h3>
 
+          <p>
+            I designed the entire system in CAD before writing software and assembling any hardware. The metal rails and ball bearing wheels were ordered, but all other
+            mechanical parts can be 3D printed. I modeled the metal parts and was able to form sub-assemblies in CAD to capture mechanical interactions between the parts.
+            I deviated a bit from the initial drawings with respect to the location of the gear rail and position of the actuators. Because the servos arrived with extremely
+            long phase cables, I decided to keep the single board computer off the cart for initial testing.
+          </p>
+          <p> 
+            I designed a scissor lift mechanism for lifting the plates, but the existing design introduces too much torque on the plastic parts. This will need to be redesigned
+            with another gear system, but I will likely shelve work on that until I can complete motion platform testing, and demonstrate fluid movement.
+          </p>
+
+          <figure>
+            <img class="media-img" src="content/cad1.png" alt="" />
+            <img class="media-img" src="content/cad2.png" alt="" />
+            <img class="media-img" src="content/cad3.png" alt="" />
+          </figure>
+        </article>
+
+        <article class="post timeline-card" id="post-sketches" data-tags="robotics" data-date="Dec 18, 2025">
+          <div class="timeline-meta">
+            <span class="timeline-dot"></span>
+            <div class="meta">
+              <span class="date">Dec 18, 2025</span>
+              <span class="tag">Rail Robot - Holiday Hackathon</span>
+            </div>
+          </div>
+          <h3 class="post-title">Initial Demo Sketches & Designs</h3>
+
+          <p> 
+            I initially sketched out the rough design for the holiday hackathon. I'll buy metal rails and suspend them using PLA, 3D printed stands. The computer,
+            actuators, and lifting mechanism should be mounted on the bottom of the cart, leaving the top to hold the plate. The preliminary idea is to use a spooling
+            mechanism with a scissor lift to place the plates onto stations which stick out over the track. The cart can lift the plates prior to arrival and then lower
+            the lifting mechanism in order to leave the plate at the station. This enabled picking and placing plates without additional external mechanisms at each station
+            and is sufficient for the demo.
+          </p>
+
+          <figure>
+            <img class="media-img" src="content/sketch1.png" alt="" />
+            <img class="media-img" src="content/sketch2.png" alt="" />
+          </figure>
+        </article>
+      </main>
+      <aside class="timeline-rail" id="timeline-rail">
+        <div class="rail-line"></div>
+      </aside>
+    </div>
+    </div>
     <footer>
       © <span id="year"></span>
     </footer>
   </div>
 
+  <div class="media-modal" id="media-modal" aria-hidden="true">
+    <div class="media-modal__backdrop" data-modal-close></div>
+    <div class="media-modal__content" role="dialog" aria-modal="true" aria-label="Image preview">
+      <img class="media-modal__img" alt="" />
+      <button class="media-modal__close" type="button" data-modal-close>Close</button>
+    </div>
+  </div>
+
   <script>
-    // Auto-year in footer (optional)
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Collapsible controls
-    const collapsibleSections = Array.from(document.querySelectorAll("[data-collapsible]"));
-    const sectionControllers = new Map();
+    const feedPosts = Array.from(document.querySelectorAll(".feed .post"));
+    const timelineRail = document.getElementById("timeline-rail");
+    const timelineNodes = [];
+    let activeGroup = "";
 
-    collapsibleSections.forEach((section) => {
-      const toggle = section.querySelector(".section-toggle");
-      const body = section.querySelector(".section-body");
-      const label = toggle?.querySelector(".toggle-label");
-      if (!toggle || !body || !label) return;
-
-      const setState = (expanded) => {
-        section.classList.toggle("collapsed", !expanded);
-        toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
-        toggle.classList.toggle("expanded", expanded);
-        label.textContent = expanded ? "Collapse" : "Expand";
-      };
-
-      sectionControllers.set(section, { toggle, setState });
-      setState(section.dataset.startOpen === "true");
-
-      toggle.addEventListener("click", () => {
-        const currentlyExpanded = toggle.getAttribute("aria-expanded") === "true";
-        setState(!currentlyExpanded);
-      });
-    });
-
-    const ensureSectionExpanded = (section) => {
-      const controller = sectionControllers.get(section);
-      if (controller) controller.setState(true);
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const parseDate = (value) => {
+      if (!value) return null;
+      const parsed = new Date(value);
+      if (Number.isNaN(parsed.getTime())) return null;
+      return parsed;
+    };
+    const monthKeyFromDate = (value) => {
+      const parsed = parseDate(value);
+      if (!parsed) return "Unknown";
+      return `${parsed.getFullYear()}-${String(parsed.getMonth() + 1).padStart(2, "0")}`;
+    };
+    const monthLabelFromDate = (value) => {
+      const parsed = parseDate(value);
+      if (!parsed) return "Unknown";
+      return `${monthNames[parsed.getMonth()]} ${parsed.getFullYear()}`;
     };
 
-    // Nav links open their target section if it's collapsed
-    document.querySelectorAll("nav a[href^='#']").forEach((link) => {
-      link.addEventListener("click", () => {
-        const targetId = link.getAttribute("href").slice(1);
-        const targetSection = document.getElementById(targetId);
-        if (!targetSection || !targetSection.classList.contains("collapsed")) return;
-        ensureSectionExpanded(targetSection);
+    const setActiveTimelineGroup = (groupKey) => {
+      activeGroup = groupKey;
+      timelineNodes.forEach((node) => {
+        node.classList.toggle("active", node.dataset.group === groupKey && !node.hidden);
+      });
+    };
+
+    const scrollToPostIndex = (index) => {
+      const target = feedPosts[index];
+      if (!target || target.hidden) return;
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+
+    const createTimeline = () => {
+      timelineRail.innerHTML = '<div class="rail-line"></div>';
+      const todayButton = document.createElement("button");
+      todayButton.type = "button";
+      todayButton.className = "timeline-today";
+      todayButton.textContent = "Today";
+      todayButton.addEventListener("click", () => {
+        const latestIndex = feedPosts.findIndex((post) => !post.hidden);
+        if (latestIndex >= 0) scrollToPostIndex(latestIndex);
+      });
+      timelineRail.appendChild(todayButton);
+
+      const seenGroups = new Map();
+      feedPosts.forEach((post, index) => {
+        const groupKey = monthKeyFromDate(post.dataset.date);
+        if (!seenGroups.has(groupKey)) {
+          const node = document.createElement("button");
+          node.type = "button";
+          node.className = "timeline-node";
+          node.dataset.group = groupKey;
+          node.innerHTML = `
+            <span class="timeline-dot"></span>
+            <span class="timeline-label">${monthLabelFromDate(post.dataset.date)}</span>
+          `;
+          node.addEventListener("click", () => {
+            const targetIndex = seenGroups.get(groupKey);
+            if (typeof targetIndex === "number") {
+              scrollToPostIndex(targetIndex);
+            }
+          });
+          timelineRail.appendChild(node);
+          timelineNodes.push(node);
+          seenGroups.set(groupKey, index);
+        }
+      });
+    };
+
+    createTimeline();
+    if (feedPosts.length) {
+      setActiveTimelineGroup(monthKeyFromDate(feedPosts[0].dataset.date));
+    }
+
+    const updateActiveOnScroll = () => {
+      const threshold = window.scrollY + window.innerHeight / 3;
+      let current = activeGroup;
+      for (let i = 0; i < feedPosts.length; i += 1) {
+        const post = feedPosts[i];
+        if (post.hidden) continue;
+        if (post.offsetTop >= threshold) {
+          current = monthKeyFromDate(post.dataset.date);
+          break;
+        }
+      }
+      if (current) setActiveTimelineGroup(current);
+    };
+
+    let scrollScheduled = false;
+    window.addEventListener("scroll", () => {
+      if (scrollScheduled) return;
+      scrollScheduled = true;
+      requestAnimationFrame(() => {
+        updateActiveOnScroll();
+        scrollScheduled = false;
       });
     });
 
-    // Highlighted post jumps also expand their section targets
-    document.querySelectorAll(".pinned-grid a[href^='#']").forEach((link) => {
-      link.addEventListener("click", () => {
-        const targetId = link.getAttribute("href").slice(1);
-        const targetEl = document.getElementById(targetId);
-        if (!targetEl) return;
-        const parentSection = targetEl.closest("section[data-collapsible]");
-        if (parentSection) ensureSectionExpanded(parentSection);
+    const getFirstSentence = (text) => {
+      const match = text.match(/[^.!?]+[.!?]+/);
+      return match ? match[0].trim() : text;
+    };
+
+    const buildPostSummaries = () => {
+      feedPosts.forEach((post) => {
+        const firstParagraph = post.querySelector("p");
+        if (!firstParagraph) return;
+
+        const summary = document.createElement("p");
+        summary.className = "post-summary";
+        summary.textContent = getFirstSentence(firstParagraph.textContent.trim());
+        post.insertBefore(summary, firstParagraph);
+
+        const mediaSummary = document.createElement("div");
+        mediaSummary.className = "post-media-summary";
+        const mediaItems = Array.from(post.querySelectorAll("img, video"));
+        mediaItems.forEach((item) => {
+          if (item.closest(".post-media-summary")) return;
+          const clone = item.cloneNode(true);
+          clone.classList.add("media-thumb");
+          if (clone.tagName.toLowerCase() === "video") {
+            clone.removeAttribute("controls");
+            clone.muted = true;
+            clone.loop = true;
+            clone.playsInline = true;
+            clone.autoplay = true;
+            clone.preload = "metadata";
+          }
+          mediaSummary.appendChild(clone);
+        });
+        if (mediaSummary.children.length) {
+          post.insertBefore(mediaSummary, firstParagraph);
+        }
+
+        const body = document.createElement("div");
+        body.className = "post-body";
+        post.insertBefore(body, firstParagraph);
+
+        let current = body.nextSibling;
+        while (current) {
+          const next = current.nextSibling;
+          body.appendChild(current);
+          current = next;
+        }
+
+        const toggle = document.createElement("button");
+        toggle.type = "button";
+        toggle.className = "post-toggle";
+        toggle.textContent = "Read More";
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.addEventListener("click", () => {
+          const expanded = post.classList.toggle("expanded");
+          toggle.textContent = expanded ? "Read Less" : "Read More";
+          toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+        });
+        post.appendChild(toggle);
       });
+    };
+
+    const modal = document.getElementById("media-modal");
+    const modalImage = modal?.querySelector(".media-modal__img");
+    const closeModal = () => {
+      if (!modal || !modalImage) return;
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+      modalImage.src = "";
+    };
+    const openModal = (src, alt) => {
+      if (!modal || !modalImage) return;
+      modalImage.src = src;
+      modalImage.alt = alt || "";
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+    };
+
+    buildPostSummaries();
+
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      if (target.closest("[data-modal-close]")) {
+        closeModal();
+        return;
+      }
+      const image = target.closest("img.media-img, img.media-thumb");
+      if (image instanceof HTMLImageElement) {
+        openModal(image.src, image.alt);
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeModal();
     });
   </script>
 </body>
