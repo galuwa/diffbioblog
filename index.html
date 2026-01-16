@@ -16,7 +16,6 @@
         <p class="eyebrow">Diff Bio</p>
         <h1>Development Blog</h1>
         <p>Follow along with developmental updates on Robotics, Software, and Science.</p>
-        <p class="muted">This blog was born over winter holiday vacation as an opportunity to track and demonstrate our technical progress through hackathon efforts.</p>
       </div>
 
     </header>
@@ -26,46 +25,66 @@
       <div class="section-head">
         <div>
           <h2>Highlighted Posts</h2>
-          <p class="hint">Snackable previews from the latest robot builds</p>
         </div>
       </div>
       <div class="pinned-grid">
-        <article class="post pinned-card" data-tags="robotics" data-date="Jan 3, 2025">
-          <div class="meta">
-            <span>Jan 3, 2025</span>
-            <span class="tag">Rail Robot - Holiday Hackathon</span>
-          </div>
-          <h3 class="post-title">Demo Pick and Place</h3>
-          <p>End-to-end plate transfer along the rail with the cam lift redesign, driven by the SBC real-time loop.</p>
-          <video class="media-video pinned-media" autoplay muted loop playsinline>
-            <source src="content/speed_test_place.mp4" type="video/mp4" />
-            Your browser does not support autoplaying video.
-          </video>
-          <a class="subtle-link" href="#post-demo-pick">Jump to full post</a>
-        </article>
-        <article class="post pinned-card" data-tags="robotics" data-date="Dec 27, 2025">
-          <div class="meta">
-            <span>Dec 27, 2025</span>
-            <span class="tag">Rail Robot - Holiday Hackathon</span>
-          </div>
-          <h3 class="post-title">Rail Robot Speed Testing</h3>
-          <p>Speed testing of preliminary rail system</p>
-          <video class="media-video pinned-media" autoplay muted loop playsinline>
-            <source src="content/speed_test.mp4" type="video/mp4" />
-            Your browser does not support autoplaying video.
-          </video>
-          <a class="subtle-link" href="#post-speed">Jump to full post</a>
-        </article>
+        <article class="post pinned-card" data-post="post-protein-dojo"></article>
+        <article class="post pinned-card" data-post="post-speed"></article>
       </div>
     </div>
 
     <div class="layout">
       <main class="feed" id="feed">
-        <article class="post timeline-card" id="post-rethinking" data-tags="robotics" data-date="Jan 5, 2025">
+        <article class="post timeline-card" id="post-lab-sim" data-tags="lab-automation" data-date="Jan 15, 2026">
           <div class="timeline-meta">
             <span class="timeline-dot"></span>
             <div class="meta">
-              <span class="date">Jan 5, 2025</span>
+              <span class="date">Jan 15, 2026</span>
+              <span class="tag">Lab Automation</span>
+            </div>
+          </div>
+          <h3 class="post-title">Prototype Lab Orchestration & Simulation</h3>
+
+          <p>The lab simulation prototype models station flow and timing for rapid automation experiments.</p>
+          <p>
+            This build focuses on validating our station layout assumptions, queueing behavior, and basic throughput using a lightweight simulation loop.
+            The goal is to reduce iteration time before committing to hardware changes by letting us test motion, timing, and control strategies in a repeatable sandbox.
+            The Orchestration is designed so that it can coneect directly to a hardware telemetry server and control real hardware with the same interface.
+          </p>
+
+          <figure>
+            <img class="media-img" src="content/lab_sim.gif" alt="lab simulation prototype loop" />
+          </figure>
+        </article>
+
+        <article class="post timeline-card" id="post-protein-dojo" data-tags="robotics" data-date="Jan 15, 2026">
+          <div class="timeline-meta">
+            <span class="timeline-dot"></span>
+            <div class="meta">
+              <span class="date">Jan 5, 2026</span>
+              <span class="tag">Protein Dojo</span>
+            </div>
+          </div>
+          <h3 class="post-title">ProteinDojo</h3>
+          <a class="pill-link" href="https://www.proteindojo.com/" target="_blank" rel="noopener">> proteindojo.com</a>
+
+          <p>Master the art of protein design</p>
+          <p>
+            Learn to build proteins with real druggable targets and industry-grade computational tools.
+            ProteinDojo started as a side project to make protein design feel more tangible and less mystical. It’s a hands-on playground where people can try real protein design challenges using modern AI tools, without needing a deep computational biology background or a massive lab setup. 
+            It shows how we think about tooling, education, and accessibility, and how quickly we can turn complex scientific workflows into something interactive and usable. For users, it’s a fun way to actually do protein design instead of just reading about it.
+          </p>
+
+          <figure>
+            <img class="media-img" src="content/protein_dojo.png" alt="looking forward" />
+          </figure>
+        </article>
+
+        <article class="post timeline-card" id="post-rethinking" data-tags="robotics" data-date="Jan 5, 2026">
+          <div class="timeline-meta">
+            <span class="timeline-dot"></span>
+            <div class="meta">
+              <span class="date">Jan 5, 2026</span>
               <span class="tag">Rail Robot - Holiday Hackathon</span>
             </div>
           </div>
@@ -90,11 +109,11 @@
           </figure>
         </article>
 
-        <article class="post timeline-card pinned" id="post-demo-pick" data-tags="robotics" data-date="Jan 3, 2025">
+        <article class="post timeline-card pinned" id="post-demo-pick" data-tags="robotics" data-date="Jan 3, 2026">
           <div class="timeline-meta">
             <span class="timeline-dot"></span>
             <div class="meta">
-              <span class="date">Jan 3, 2025</span>
+              <span class="date">Jan 3, 2026</span>
               <span class="tag">Rail Robot - Holiday Hackathon</span>
             </div>
           </div>
@@ -113,11 +132,11 @@
           </video>
         </article>
 
-        <article class="post timeline-card" id="post-station" data-tags="robotics" data-date="Jan 2, 2025">
+        <article class="post timeline-card" id="post-station" data-tags="robotics" data-date="Jan 2, 2026">
           <div class="timeline-meta">
             <span class="timeline-dot"></span>
             <div class="meta">
-              <span class="date">Jan 2, 2025</span>
+              <span class="date">Jan 2, 2026</span>
               <span class="tag">Rail Robot - Holiday Hackathon</span>
             </div>
           </div>
@@ -135,11 +154,11 @@
           </figure>
         </article>
 
-        <article class="post timeline-card" id="post-cam-lift" data-tags="robotics" data-date="Jan 1, 2025">
+        <article class="post timeline-card" id="post-cam-lift" data-tags="robotics" data-date="Jan 1, 2026">
           <div class="timeline-meta">
             <span class="timeline-dot"></span>
             <div class="meta">
-              <span class="date">Jan 1, 2025</span>
+              <span class="date">Jan 1, 2026</span>
               <span class="tag">Rail Robot - Holiday Hackathon</span>
             </div>
           </div>
@@ -306,6 +325,12 @@
       if (Number.isNaN(parsed.getTime())) return null;
       return parsed;
     };
+    const getPostDateString = (post) => {
+      const attr = post.dataset.date?.trim();
+      if (attr) return attr;
+      const dateEl = post.querySelector(".date");
+      return dateEl?.textContent?.trim() || "";
+    };
     const monthKeyFromDate = (value) => {
       const parsed = parseDate(value);
       if (!parsed) return "Unknown";
@@ -316,6 +341,19 @@
       if (!parsed) return "Unknown";
       return `${monthNames[parsed.getMonth()]} ${parsed.getFullYear()}`;
     };
+    const getPostMeta = () =>
+      feedPosts.map((post, index) => {
+        const dateString = getPostDateString(post);
+        const parsed = parseDate(dateString);
+        return {
+          index,
+          post,
+          parsed,
+          timestamp: parsed ? parsed.getTime() : null,
+          groupKey: monthKeyFromDate(dateString),
+          groupLabel: monthLabelFromDate(dateString),
+        };
+      });
 
     const setActiveTimelineGroup = (groupKey) => {
       activeGroup = groupKey;
@@ -337,39 +375,54 @@
       todayButton.className = "timeline-today";
       todayButton.textContent = "Today";
       todayButton.addEventListener("click", () => {
-        const latestIndex = feedPosts.findIndex((post) => !post.hidden);
-        if (latestIndex >= 0) scrollToPostIndex(latestIndex);
+        const meta = getPostMeta()
+          .filter((item) => !item.post.hidden)
+          .sort((a, b) => (b.timestamp ?? -Infinity) - (a.timestamp ?? -Infinity));
+        if (meta.length) scrollToPostIndex(meta[0].index);
       });
       timelineRail.appendChild(todayButton);
 
-      const seenGroups = new Map();
-      feedPosts.forEach((post, index) => {
-        const groupKey = monthKeyFromDate(post.dataset.date);
-        if (!seenGroups.has(groupKey)) {
-          const node = document.createElement("button");
-          node.type = "button";
-          node.className = "timeline-node";
-          node.dataset.group = groupKey;
-          node.innerHTML = `
-            <span class="timeline-dot"></span>
-            <span class="timeline-label">${monthLabelFromDate(post.dataset.date)}</span>
-          `;
-          node.addEventListener("click", () => {
-            const targetIndex = seenGroups.get(groupKey);
-            if (typeof targetIndex === "number") {
-              scrollToPostIndex(targetIndex);
+      const meta = getPostMeta();
+      const groups = Array.from(
+        meta
+          .filter((item) => item.groupKey !== "Unknown")
+          .reduce((acc, item) => {
+            if (!acc.has(item.groupKey)) {
+              acc.set(item.groupKey, {
+                key: item.groupKey,
+                label: item.groupLabel,
+                timestamp: item.timestamp ?? -Infinity,
+              });
             }
-          });
-          timelineRail.appendChild(node);
-          timelineNodes.push(node);
-          seenGroups.set(groupKey, index);
-        }
+            return acc;
+          }, new Map())
+          .values()
+      ).sort((a, b) => b.timestamp - a.timestamp);
+
+      groups.forEach((group) => {
+        const node = document.createElement("button");
+        node.type = "button";
+        node.className = "timeline-node";
+        node.dataset.group = group.key;
+        node.innerHTML = `
+          <span class="timeline-dot"></span>
+          <span class="timeline-label">${group.label}</span>
+        `;
+        node.addEventListener("click", () => {
+          const groupPosts = meta.filter((item) => item.groupKey === group.key);
+          if (!groupPosts.length) return;
+          const target = groupPosts.sort((a, b) => (b.timestamp ?? -Infinity) - (a.timestamp ?? -Infinity))[0];
+          scrollToPostIndex(target.index);
+        });
+        timelineRail.appendChild(node);
+        timelineNodes.push(node);
       });
     };
 
     createTimeline();
     if (feedPosts.length) {
-      setActiveTimelineGroup(monthKeyFromDate(feedPosts[0].dataset.date));
+      const meta = getPostMeta().sort((a, b) => (b.timestamp ?? -Infinity) - (a.timestamp ?? -Infinity));
+      setActiveTimelineGroup(meta[0]?.groupKey || "");
     }
 
     const updateActiveOnScroll = () => {
@@ -399,6 +452,85 @@
     const getFirstSentence = (text) => {
       const match = text.match(/[^.!?]+[.!?]+/);
       return match ? match[0].trim() : text;
+    };
+
+    const populatePinnedPosts = () => {
+      const pinnedCards = Array.from(document.querySelectorAll(".pinned-card[data-post]"));
+      pinnedCards.forEach((card) => {
+        const targetId = card.dataset.post;
+        if (!targetId) return;
+        const source = document.getElementById(targetId);
+        if (!source) return;
+
+        const meta = source.querySelector(".meta");
+        const dateText = source.querySelector(".date")?.textContent?.trim() || "";
+        const tagText = meta?.querySelector(".tag")?.textContent?.trim() || "";
+        const titleText = source.querySelector(".post-title")?.textContent?.trim() || "";
+        const firstParagraph = source.querySelector("p");
+        const summaryText = firstParagraph ? getFirstSentence(firstParagraph.textContent.trim()) : "";
+        const media = source.querySelector("img, video");
+
+        card.innerHTML = "";
+
+        const metaWrap = document.createElement("div");
+        metaWrap.className = "meta";
+        if (dateText) {
+          const dateSpan = document.createElement("span");
+          dateSpan.textContent = dateText;
+          metaWrap.appendChild(dateSpan);
+        }
+        if (tagText) {
+          const tagSpan = document.createElement("span");
+          tagSpan.className = "tag";
+          tagSpan.textContent = tagText;
+          metaWrap.appendChild(tagSpan);
+        }
+        card.appendChild(metaWrap);
+
+        const title = document.createElement("h3");
+        title.className = "post-title";
+        title.textContent = titleText;
+        card.appendChild(title);
+
+        if (summaryText) {
+          const summary = document.createElement("p");
+          summary.textContent = summaryText;
+          card.appendChild(summary);
+        }
+
+        if (media) {
+          if (media.tagName.toLowerCase() === "video") {
+            const video = document.createElement("video");
+            video.className = "media-video pinned-media";
+            video.autoplay = true;
+            video.muted = true;
+            video.loop = true;
+            video.playsInline = true;
+            const sourceEl = media.querySelector("source");
+            if (sourceEl?.getAttribute("src")) {
+              const src = sourceEl.getAttribute("src");
+              const type = sourceEl.getAttribute("type") || "video/mp4";
+              const sourceNode = document.createElement("source");
+              sourceNode.setAttribute("src", src);
+              sourceNode.setAttribute("type", type);
+              video.appendChild(sourceNode);
+            }
+            card.appendChild(video);
+          } else {
+            const img = document.createElement("img");
+            img.className = "media-img pinned-media";
+            img.src = media.getAttribute("src") || "";
+            img.alt = media.getAttribute("alt") || "";
+            card.appendChild(img);
+          }
+        }
+
+        const link = document.createElement("a");
+        link.className = "subtle-link";
+        link.href = `#${targetId}`;
+        link.textContent = "Jump to full post";
+        card.appendChild(link);
+      });
     };
 
     const buildPostSummaries = () => {
@@ -474,6 +606,7 @@
     };
 
     buildPostSummaries();
+    populatePinnedPosts();
 
     document.addEventListener("click", (event) => {
       const target = event.target;

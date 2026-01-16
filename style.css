@@ -526,6 +526,26 @@ article.post {
 
 .post-title { margin: 4px 0 8px; font-size: 18px; }
 .post p { margin: 10px 0; color: rgba(230,235,255,0.92); }
+.pill-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 4px 0 6px;
+  transition: color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+.pill-link:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  transform: translateX(2px);
+}
 
 figure { margin: 14px 0 0; }
 figcaption { margin-top: 8px; color: var(--muted); font-size: 12.5px; }
