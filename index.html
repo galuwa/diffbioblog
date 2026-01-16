@@ -43,13 +43,12 @@
               <span class="tag">Lab Automation</span>
             </div>
           </div>
-          <h3 class="post-title">Prototype Lab Orchestration & Simulation</h3>
+          <h3 class="post-title">A Tiny Lab Simulation</h3>
 
-          <p>The lab simulation prototype models station flow and timing for rapid automation experiments.</p>
+          <p>We built a tiny lab simulation to test workflow ideas before we touch hardware.</p>
           <p>
-            This build focuses on validating our station layout assumptions, queueing behavior, and basic throughput using a lightweight simulation loop.
-            The goal is to reduce iteration time before committing to hardware changes by letting us test motion, timing, and control strategies in a repeatable sandbox.
-            The Orchestration is designed so that it can coneect directly to a hardware telemetry server and control real hardware with the same interface.
+            It lets us sanity-check station flow, timing, and throughput in minutes.
+            The fun part: the same control surface can later drive real hardware, so this isn’t throwaway code.
           </p>
 
           <figure>
@@ -61,22 +60,20 @@
           <div class="timeline-meta">
             <span class="timeline-dot"></span>
             <div class="meta">
-              <span class="date">Jan 5, 2026</span>
+              <span class="date">Jan 15, 2026</span>
               <span class="tag">Protein Dojo</span>
             </div>
           </div>
-          <h3 class="post-title">ProteinDojo</h3>
-          <a class="pill-link" href="https://www.proteindojo.com/" target="_blank" rel="noopener">> proteindojo.com</a>
+          <h3 class="post-title">Protein Dojo</h3>
+          <a class="pill-link" href="https://www.proteindojo.com/" target="_blank" rel="noopener">proteindojo.com</a>
 
-          <p>Master the art of protein design</p>
+          <p>Protein design is finally something everyone can poke at</p>
           <p>
-            Learn to build proteins with real druggable targets and industry-grade computational tools.
-            ProteinDojo started as a side project to make protein design feel more tangible and less mystical. It’s a hands-on playground where people can try real protein design challenges using modern AI tools, without needing a deep computational biology background or a massive lab setup. 
-            It shows how we think about tooling, education, and accessibility, and how quickly we can turn complex scientific workflows into something interactive and usable. For users, it’s a fun way to actually do protein design instead of just reading about it.
+            We built this as a side project so people can try real protein design problems with modern machine learning tools, without a huge setup.
           </p>
 
           <figure>
-            <img class="media-img" src="content/protein_dojo.png" alt="looking forward" />
+            <img class="media-img" src="content/protein_dojo.png" alt="Protein Dojo screenshot" />
           </figure>
         </article>
 
@@ -88,24 +85,20 @@
               <span class="tag">Rail Robot - Holiday Hackathon</span>
             </div>
           </div>
-          <h3 class="post-title">Rethinking Robot Design Moving Forward</h3>
+          <h3 class="post-title">Turning A Demo Into Something Reliable</h3>
 
+          <p>We’re making the robot safer, more repeatable, and harder to accidentally break.</p>
           <p>
-            Starting to brainstorm improvements to the architecture - NFC station detection, ADC to enable analog hall effect sensors for lift position feedback.
-            Using MOSFET AND gates, I can drive the motor enable pin based on an ESTOP, specific motor operation and overall fault detection state. The current
-            design drives the TMCs with step/dir GPIO, but moving to UART will give us access to more robust control and advanced features present in the
-            register configuration.
+            The next upgrades are boring-in-a-good-way: station identification, lift position feedback, and a proper “stop everything” safety path that doesn’t depend on software behaving.
+            We also want better access to the motor driver configuration so tuning doesn’t feel like guesswork.
           </p>
           <p>
-            Using the Pi Zero W gives us a convenient Linux platform with wireless connectivity, but it's not the ideal real-time control computer.
-            For preliminary development, I think it's sufficient, and my research indicates we can expect IO latencies on the order of a few milliseconds with
-            a well configured system. As our control cycle is constrained to 100Hz, this is sufficient for the time-being. Moving forward, I would like to explore
-            more robust real-time platforms, possibly an RTOS or microcontroller-based solution. The Pi could be a Linux interface computer which communicates
-            with an STM32 or similar microcontroller over SPI or UART to offload real-time control tasks.
+            Today the control loop runs on a tiny Linux board because it’s convenient, not because it’s perfect.
+            Longer term we’ll likely split “fast motor control” onto a dedicated controller and keep Linux for the user interface and logging.
           </p>
 
           <figure>
-            <img class="media-img" src="content/robot_v1p1_schematic.png" alt="looking forward" />
+            <img class="media-img" src="content/robot_v1p1_schematic.png" alt="control schematic draft" />
           </figure>
         </article>
 
@@ -117,13 +110,11 @@
               <span class="tag">Rail Robot - Holiday Hackathon</span>
             </div>
           </div>
-          <h3 class="post-title">Demo Pick and Place</h3>
+          <h3 class="post-title">A First End To End Demo</h3>
+          <p>The cart picks up a plate, rides the rail, and drops it off — end to end.</p>
           <p>
-            This is a demo of the rail robot performing a pick and place operation. The cart moves along the rail to the first station, lowers the lift mechanism to pick up
-            the plate, then moves to the second station and lowers the lift mechanism to deposit the plate. The entire operation is controlled by a single-board computer
-            running a real-time C++ control loop. The speed and acceleration of the cart is controlled to ensure smooth movement and prevent dropping the plate and the lift
-            mechanism is a simple cam mechanism driven by a servo motor without any additional sensors or latching. This approach can be further improved with the addition
-            of sensors to detect plate presence and ensure proper placement.
+            It’s simple on purpose: two stations, a lift, and one controller loop doing the whole sequence.
+            The big win is repeatability: we can now change one thing (mechanism, tuning, software) and immediately see the impact.
           </p>
 
           <video class="media-video" controls preload="metadata">
@@ -140,13 +131,12 @@
               <span class="tag">Rail Robot - Holiday Hackathon</span>
             </div>
           </div>
-          <h3 class="post-title">Simple Station Design</h3>
+          <h3 class="post-title">A Simple Station</h3>
 
+          <p>A station is just a small “landing pad” that makes placement predictable.</p>
           <p>
-            To facilitate plate placement and pickup, I designed a simple station which can be 3D printed. The station has a lip which extends over the rail, allowing the
-            cart to position the plate over the station and then lower the lift mechanism to deposit the plate. The station is designed to be modular, allowing for multiple
-            stations to be placed along the rail as needed. This is the simplest possible design for the demo, but in a production system, we would want to incorporate sensors and possibly locking mechanisms to ensure
-            proper plate placement and security.
+            Ours is a simple printed part with a lip that guides the plate into the same spot every time.
+            Later we can add sensing and locking, but this gets us to reliable demos fast.
           </p>
 
           <figure>
@@ -162,13 +152,10 @@
               <span class="tag">Rail Robot - Holiday Hackathon</span>
             </div>
           </div>
-          <h3 class="post-title">Cam Lift Redesign</h3>
+          <h3 class="post-title">A Better Lift Mechanism</h3>
 
-          <p>
-            The scissor lift mechanism I initially designed for lifting the plates was not sufficiently rigid, and introduced too much torque on the plastic parts.
-            I redesigned the lift to use a cam mechanism which is driven by a servo motor. This design is much more compact, rigid, and provides a smooth lifting motion.
-            The cam profile was designed to provide a gradual acceleration and deceleration of the lift, which minimizes the risk of dropping the plate during movement.
-          </p>
+          <p>We replaced a wobbly scissor lift with a compact cam lift.</p>
+          <p>The motion is smoother, the parts see less stress, and the plate is less likely to do anything exciting on the way up.</p>
 
           <figure>
             <img class="media-img" src="content/cam_lift.png" alt="cam lift design" />
@@ -184,26 +171,19 @@
               <span class="tag">Rail Robot - Holiday Hackathon</span>
             </div>
           </div>
-          <h3 class="post-title">Wire Clean Up Effort</h3>
+          <h3 class="post-title">Wiring That Survives Real Life</h3>
 
+          <p>We rewired the prototype so it survives tweaks, bumps, and cats.</p>
           <p>
-            Now that the rail robot prototype is consistently up and running, it felt like a good opportunity to clean up the wiring and move away from dupont cables.
-            I replicated the breadboard setup on a solderable breadboard and added headers to interface with the 12V motor power, stepper phases, and station reed switches.
-            The board should remain fairly extensible, but is much more robust to accidents and cat interactions.
-          </p>
-          <p>
-            One of the more important changes was suspending the stepper motor phase wires above the rail mechanism, which ensures there is no tangling during operation.
-            This is ultimately one of the larger considerations for production design when trading a tethered vs. self contained solution which sources power from a rail.
-            For this demo, I wanted to keep the design as simple as possible which meant, keeping logical control components off the cart.
+            The breadboard era is over: we moved to a soldered board with clean headers, and routed the moving wires so they can’t snag during motion.
+            It’s not glamorous work, but it’s the difference between a demo that works once and a prototype you can iterate on daily.
           </p>
 
           <figure>
             <img class="media-img" src="content/rewire.jpg" alt="consolidation of electrical design" />
           </figure>
 
-          <p>
-            I exposed headers for all connections to the single board computer, stepper motor, servos, and reed switches. This should make it easier to debug and reconfigure.
-          </p>
+          <p>Everything now breaks out cleanly, which makes debugging (and reconfiguring) way less painful.</p>
           <figure>
             <img class="media-img" src="content/board_front.jpg" alt="consolidation of electrical design" />
           </figure>
@@ -220,18 +200,12 @@
               <span class="tag">Rail Robot - Holiday Hackathon</span>
             </div>
           </div>
-          <h3 class="post-title">Rail Robot Speed Testing</h3>
+          <h3 class="post-title">Getting The Rail Moving Fast</h3>
 
+          <p>We pushed the rail speed until it started to scare the cat.</p>
           <p>
-            This is the result of preliminary speed testing for the rail system robot. Using the real-time C++ control library I was able to split actuator control
-            into two components: StepperControl and PositionControl - the former is responsible for generating a pulse wave to the stepper phases, and handling the
-            various phases of acceleration/deceleration; The latter is responsible for high level system control of position and keeping a state machine of station
-            passage and direction.
-          </p>
-          <p>
-            This speed is highly dependent on the weight provided by the stepper motors - without additional rail clamping mechanisms, the acceleration must be a gradual
-            process, else the laterally offset gear will kick the cart off the track. Ultimately, we would want to center this mechanism or counteract the torque on a
-            production design.
+            The biggest constraint right now is mechanical: if we accelerate too hard, torque can pop the cart off the track.
+            That’s a great sign, because it means the next gains are mostly design and packaging, not “rewrite everything.”
           </p>
 
           <video class="media-video" controls preload="metadata">
@@ -248,18 +222,10 @@
               <span class="tag">Rail Robot - Holiday Hackathon</span>
             </div>
           </div>
-          <h3 class="post-title">CAD Design and Iteration</h3>
+          <h3 class="post-title">Arguing In 3D Before Printing</h3>
 
-          <p>
-            I designed the entire system in CAD before writing software and assembling any hardware. The metal rails and ball bearing wheels were ordered, but all other
-            mechanical parts can be 3D printed. I modeled the metal parts and was able to form sub-assemblies in CAD to capture mechanical interactions between the parts.
-            I deviated a bit from the initial drawings with respect to the location of the gear rail and position of the actuators. Because the servos arrived with extremely
-            long phase cables, I decided to keep the single board computer off the cart for initial testing.
-          </p>
-          <p> 
-            I designed a scissor lift mechanism for lifting the plates, but the existing design introduces too much torque on the plastic parts. This will need to be redesigned
-            with another gear system, but I will likely shelve work on that until I can complete motion platform testing, and demonstrate fluid movement.
-          </p>
+          <p>We modeled the whole system in three dimensions so we could find the dumb problems early.</p>
+          <p>It saved us from a bunch of “print, assemble, swear, reprint” loops, and made tradeoffs obvious before the first screw went in.</p>
 
           <figure>
             <img class="media-img" src="content/cad1.png" alt="" />
@@ -276,15 +242,10 @@
               <span class="tag">Rail Robot - Holiday Hackathon</span>
             </div>
           </div>
-          <h3 class="post-title">Initial Demo Sketches & Designs</h3>
+          <h3 class="post-title">The First Sketches</h3>
 
-          <p> 
-            I initially sketched out the rough design for the holiday hackathon. I'll buy metal rails and suspend them using PLA, 3D printed stands. The computer,
-            actuators, and lifting mechanism should be mounted on the bottom of the cart, leaving the top to hold the plate. The preliminary idea is to use a spooling
-            mechanism with a scissor lift to place the plates onto stations which stick out over the track. The cart can lift the plates prior to arrival and then lower
-            the lifting mechanism in order to leave the plate at the station. This enabled picking and placing plates without additional external mechanisms at each station
-            and is sufficient for the demo.
-          </p>
+          <p>The original idea: move plates like a tiny factory line instead of a fancy robot arm.</p>
+          <p>We wanted something cheap, fast to hack on, and good enough to teach us what matters before we overbuild.</p>
 
           <figure>
             <img class="media-img" src="content/sketch1.png" alt="" />
@@ -432,7 +393,7 @@
         const post = feedPosts[i];
         if (post.hidden) continue;
         if (post.offsetTop >= threshold) {
-          current = monthKeyFromDate(post.dataset.date);
+          current = monthKeyFromDate(getPostDateString(post));
           break;
         }
       }
@@ -449,10 +410,23 @@
       });
     });
 
+    const SUMMARY_MAX_CHARS = 110;
+
+    const truncateAtWord = (text, maxChars) => {
+      const clean = text.trim().replace(/\s+/g, " ");
+      if (clean.length <= maxChars) return clean;
+      const sliced = clean.slice(0, maxChars + 1);
+      const lastSpace = sliced.lastIndexOf(" ");
+      const cut = (lastSpace > 40 ? sliced.slice(0, lastSpace) : sliced.slice(0, maxChars)).trim();
+      return `${cut}...`;
+    };
+
     const getFirstSentence = (text) => {
       const match = text.match(/[^.!?]+[.!?]+/);
-      return match ? match[0].trim() : text;
+      return match ? match[0].trim() : text.trim();
     };
+
+    const getSummaryText = (text) => truncateAtWord(getFirstSentence(text), SUMMARY_MAX_CHARS);
 
     const populatePinnedPosts = () => {
       const pinnedCards = Array.from(document.querySelectorAll(".pinned-card[data-post]"));
@@ -467,7 +441,7 @@
         const tagText = meta?.querySelector(".tag")?.textContent?.trim() || "";
         const titleText = source.querySelector(".post-title")?.textContent?.trim() || "";
         const firstParagraph = source.querySelector("p");
-        const summaryText = firstParagraph ? getFirstSentence(firstParagraph.textContent.trim()) : "";
+        const summaryText = firstParagraph ? getSummaryText(firstParagraph.textContent) : "";
         const media = source.querySelector("img, video");
 
         card.innerHTML = "";
@@ -540,7 +514,7 @@
 
         const summary = document.createElement("p");
         summary.className = "post-summary";
-        summary.textContent = getFirstSentence(firstParagraph.textContent.trim());
+        summary.textContent = getSummaryText(firstParagraph.textContent);
         post.insertBefore(summary, firstParagraph);
 
         const mediaSummary = document.createElement("div");

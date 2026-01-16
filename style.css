@@ -608,4 +608,8 @@ footer {
   .feed {
     padding-left: 0;
   }
+  .feed::before,
+  .timeline-card::before {
+    display: none;
+  }
 }
