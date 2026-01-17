@@ -10,384 +10,414 @@
 </head>
 
 <body>
-  <div class="wrap">
-    <header class="masthead">
-      <div class="brand">
-        <p class="eyebrow">Diff Bio</p>
-        <h1>Development Blog</h1>
-        <p>Follow along with developmental updates on Robotics, Software, and Science.</p>
+  <div class="terminal-frame">
+    <div class="terminal-titlebar">
+      <div class="terminal-buttons">
+        <span class="terminal-btn close"></span>
+        <span class="terminal-btn minimize"></span>
+        <span class="terminal-btn maximize"></span>
       </div>
+      <div class="terminal-title">diff-bio -- blog.diff.bio</div>
+    </div>
 
-      <nav aria-label="Site links">
-        <a class="post-toggle" href="https://diff.bio/" target="_blank" rel="noopener">
-          Learn More - Contact Us
-        </a>
-      </nav>
-    </header>
+    <div class="terminal-body">
+      <header class="masthead">
+        <div class="brand">
+          <p class="eyebrow">Diff Bio</p>
+          <h1 class="cursor">Development Blog</h1>
+          <p>Follow along with developmental updates on Robotics, Software, and Science.</p>
+        </div>
 
-    <div class="content-area">
-      <div class="pinned-area">
-      <div class="section-head">
-        <div>
-          <h2>Highlighted Posts</h2>
+        <nav aria-label="Site links">
+          <a class="post-toggle" href="https://diff.bio/" target="_blank" rel="noopener">
+            Learn More - Contact Us
+          </a>
+        </nav>
+      </header>
+
+      <div class="content-area">
+        <div class="pinned-area">
+        <div class="section-head">
+          <div>
+            <h2>Highlighted Posts</h2>
+          </div>
+        </div>
+        <div class="pinned-grid">
+          <article class="post pinned-card" data-post="post-protein-dojo"></article>
+          <article class="post pinned-card" data-post="post-speed"></article>
+          <article class="post pinned-card" data-post="post-lab-sim"></article>
         </div>
       </div>
-      <div class="pinned-grid">
-        <article class="post pinned-card" data-post="post-protein-dojo"></article>
-        <article class="post pinned-card" data-post="post-speed"></article>
-        <article class="post pinned-card" data-post="post-lab-sim"></article>
+
+      <div class="layout">
+        <main class="feed" id="feed">
+          <article class="post timeline-card" id="post-lab-sim" data-tags="lab-automation" data-date="Jan 15, 2026">
+            <div class="timeline-meta">
+              <span class="timeline-dot"></span>
+              <div class="meta">
+                <span class="date">Jan 15, 2026</span>
+                <span class="tag">Lab Automation</span>
+              </div>
+            </div>
+            <h3 class="post-title">Lab Simulation</h3>
+
+            <p>We built Maestro to de-risk lab automation orchestration before we touch hardware.</p>
+            <p>
+              The goal is simple: run workflows repeatedly, see where timing and coordination break, and fix that loop before it becomes a hardware problem.
+            </p>
+            <p>
+              At the core is a deterministic simulation engine that advances in fixed 100ms ticks.
+              Nodes (robots, stations, instruments) are small state machines that emit telemetry events as they execute commands.
+              Because time advances in discrete ticks, we can reproduce "exactly what happened" from the same initial state and inputs — which is ideal for performance questions and corner cases.
+            </p>
+            <p>
+              Control is event-driven.
+              The orchestrator talks to the simulation over gRPC, issues commands, and waits on telemetry (arrived, plate picked, command rejected) rather than polling or sleeping.
+              In parallel, the browser UI connects to two WebSocket streams: one for raw telemetry and one for orchestrator state.
+              That separation is intentional: it keeps the UI useful whether the backend is a simulation or real hardware.
+            </p>
+            <p>
+              We also inject faults on purpose to test recovery behavior early, while it's cheap to fix.
+              The same control surface can later drive real systems, so this isn't throwaway code.
+            </p>
+            <p>Next up is expanding scenario coverage and tightening runtime metrics so we can compare changes run-to-run.</p>
+
+            <figure>
+              <img class="media-img" src="content/sim.gif" alt="Maestro simulation running a multi-robot workflow" />
+            </figure>
+            <figure>
+              <img class="media-img" src="content/sim_screenshot_1.png" alt="Simulation UI showing active operation with robot positions" />
+            </figure>
+            <figure>
+              <img class="media-img" src="content/faulted.png" alt="Faulted state display showing error handling" />
+            </figure>
+            <figure>
+              <img class="media-img" src="content/metrics.png" alt="Runtime metrics dashboard with timing data" />
+            </figure>
+          </article>
+
+          <article class="post timeline-card" id="post-protein-dojo" data-tags="robotics" data-date="Jan 15, 2026">
+            <div class="timeline-meta">
+              <span class="timeline-dot"></span>
+              <div class="meta">
+                <span class="date">Jan 15, 2026</span>
+                <span class="tag">Protein Dojo</span>
+              </div>
+            </div>
+            <h3 class="post-title">Protein Dojo</h3>
+            <a class="pill-link" href="https://www.proteindojo.com/" target="_blank" rel="noopener">proteindojo.com</a>
+
+            <p>Protein Dojo makes protein design feel hands-on instead of "read papers and hope."</p>
+            <p>
+              For small teams iterating on binders, the difference is loop speed: get to a concrete design decision quickly, with enough feedback to learn what actually changed.
+            </p>
+            <p>
+              Under the hood it's grounded in real structures.
+              You can explore an actual complex (e.g. SARS‑CoV‑2 Spike RBD bound to human ACE2) pulled from the PDB, then design against a specific interface.
+            </p>
+            <p>
+              The workflow is intentionally structured: Explore → Design → Evaluate → Submit.
+              That's where the "cool" becomes useful — you can move between 3D geometry and residue-level sequence changes without losing context.
+            </p>
+            <p>
+              The evaluation loop is the teacher.
+              Make a change, re-evaluate, and see why it helped or hurt: clashes, polarity, surface complementarity, and whether the design still looks physically plausible.
+            </p>
+            <p>Next up is tightening the evaluation signal so iteration feels even more like engineering and less like guesswork.</p>
+
+            <figure>
+              <img class="media-img" src="content/protein_dojo.png" alt="Protein Dojo 3D viewer showing protein structure with binding interface" />
+            </figure>
+            <figure>
+              <img class="media-img" src="content/dojo2.png" alt="Protein Dojo evaluation panel with design metrics" />
+            </figure>
+          </article>
+
+          <article class="post timeline-card" id="post-rethinking" data-tags="robotics" data-date="Jan 5, 2026">
+            <div class="timeline-meta">
+              <span class="timeline-dot"></span>
+              <div class="meta">
+                <span class="date">Jan 5, 2026</span>
+                <span class="tag">Rail Robot - Holiday Hackathon</span>
+              </div>
+            </div>
+            <h3 class="post-title">Turning A Demo Into Something Reliable</h3>
+
+            <p>We're turning a working demo into a system that's predictable under stress.</p>
+            <p>
+              Reliability is the goal: repeatable behavior, clearer failure modes, and a safety path that doesn't depend on "everything else behaving."
+            </p>
+            <p>
+              The current loop runs on a small Linux SBC because it's convenient for iteration.
+              Longer-term we'll likely split timing-critical motor control onto a dedicated controller, and keep Linux focused on the UI, logging, and coordination.
+            </p>
+            <p>
+              The architecture we're converging on is three layers:
+              hardware I/O and timing (step pulses, servo PWM, limit inputs),
+              motion planning (ramps/segments that respect the mechanics),
+              and orchestration (station state machine + traceable logs of what happened and why).
+            </p>
+            <p>
+              The key rule is non-blocking control.
+              Everything advances on a monotonic tick with explicit state transitions, so adding sensors later becomes "handle new evidence" rather than "rewrite the loop."
+            </p>
+            <p>Next up is closing the feedback gaps: station ID, lift position feedback, and a hard stop path that's independent of application logic.</p>
+
+            <figure>
+              <img class="media-img" src="content/robot_v1p1_schematic.png" alt="Control system schematic showing three-layer architecture" />
+            </figure>
+          </article>
+
+          <article class="post timeline-card pinned" id="post-demo-pick" data-tags="robotics" data-date="Jan 3, 2026">
+            <div class="timeline-meta">
+              <span class="timeline-dot"></span>
+              <div class="meta">
+                <span class="date">Jan 3, 2026</span>
+                <span class="tag">Rail Robot - Holiday Hackathon</span>
+              </div>
+            </div>
+            <h3 class="post-title">A First End To End Demo</h3>
+            <p>The cart picks up a plate, rides the rail, and drops it off — end to end.</p>
+            <p>
+              This started as a holiday hackathon build.
+              The point was to prove we can go from sketch → mechanism → control loop → repeatable motion quickly, then iterate toward robustness.
+            </p>
+            <p>
+              The demo is intentionally simple: two stations, a lift, and one controller loop sequencing the whole operation.
+              That simplicity is useful because it makes changes legible — update one variable (mechanism, tuning, software) and you immediately see the effect.
+            </p>
+            <p>
+              Under the hood it's one SBC running a tight C++ loop: generate step pulses, shape acceleration/deceleration so motion stays smooth, and sequence a station state machine.
+              We're intentionally light on sensors right now so we can pin down the fundamentals before adding complexity.
+            </p>
+            <p>
+              The lift is a servo-driven cam with no latching and no extra feedback, which makes the next steps obvious: plate presence sensing, lift position feedback, and a safety stop path that doesn't depend on application code.
+            </p>
+            <p>Next up is adding feedback without losing simplicity: minimal sensors, clear failure modes, and a safer stop-everything path.</p>
+
+            <video class="media-video" controls preload="metadata">
+              <source src="content/speed_test_place_h264.mp4" type="video/mp4" />
+              Sorry, your browser doesn't support embedded videos.
+            </video>
+          </article>
+
+          <article class="post timeline-card" id="post-station" data-tags="robotics" data-date="Jan 2, 2026">
+            <div class="timeline-meta">
+              <span class="timeline-dot"></span>
+              <div class="meta">
+                <span class="date">Jan 2, 2026</span>
+                <span class="tag">Rail Robot - Holiday Hackathon</span>
+              </div>
+            </div>
+            <h3 class="post-title">A Simple Station</h3>
+
+            <p>A station is a small landing pad that makes placement predictable.</p>
+            <p>
+              The goal is repeatability: when the cart arrives, the plate lands in the same place every time, so the rest of the system can be simpler.
+            </p>
+            <p>
+              Ours is a 3D-printed part with a guiding lip and an overhang that lets the cart position a plate above the station and lower into a known target.
+              It's intentionally modular so we can place multiple stations along the rail without redesigning the system.
+            </p>
+            <p>
+              Later we can add sensing and locking, but this baseline geometry is the foundation for reliable demos and clean integration tests.
+            </p>
+            <p>Next up is adding just enough sensing to detect "plate present / plate absent" without complicating the mechanism.</p>
+
+            <figure>
+              <img class="media-img" src="content/simple_station.png" alt="3D-printed station design with guiding lip" />
+            </figure>
+          </article>
+
+          <article class="post timeline-card" id="post-cam-lift" data-tags="robotics" data-date="Jan 1, 2026">
+            <div class="timeline-meta">
+              <span class="timeline-dot"></span>
+              <div class="meta">
+                <span class="date">Jan 1, 2026</span>
+                <span class="tag">Rail Robot - Holiday Hackathon</span>
+              </div>
+            </div>
+            <h3 class="post-title">A Better Lift Mechanism</h3>
+
+            <p>We replaced a scissor lift with a compact servo-driven cam lift.</p>
+            <p>
+              The goal is controlled motion: less flex, less torque on printed parts, and a lift path that's smooth enough to keep plates stable.
+            </p>
+            <p>
+              The scissor version looked fine in CAD but flexed too much in the printed assembly and loaded the plastic in the wrong ways.
+              The cam lift is stiffer and simpler to tune because the cam profile can shape acceleration/deceleration mechanically, not just in software.
+            </p>
+            <p>
+              It's also a better base for feedback: adding a position sensor or a hard stop is straightforward compared to debugging a flexy linkage.
+            </p>
+            <p>Next up is adding lift position feedback so the controller can detect "not where expected" and react safely.</p>
+
+            <figure>
+              <img class="media-img" src="content/cam_lift.png" alt="Cam lift mechanism CAD design" />
+            </figure>
+            <figure>
+              <img class="media-img" src="content/plate_holding.jpg" alt="Cam lift holding a plate in raised position" />
+            </figure>
+          </article>
+
+          <article class="post timeline-card" id="post-wire-clean" data-tags="robotics" data-date="Dec 27, 2025">
+            <div class="timeline-meta">
+              <span class="timeline-dot"></span>
+              <div class="meta">
+                <span class="date">Dec 27, 2025</span>
+                <span class="tag">Rail Robot - Holiday Hackathon</span>
+              </div>
+            </div>
+            <h3 class="post-title">Wiring That Survives Real Life</h3>
+
+            <p>We cleaned up wiring so iteration doesn't come with a reliability tax.</p>
+            <p>
+              The goal is stable debugging: change one thing, observe the effect, and avoid introducing new failures from loose jumpers and tangled cables.
+            </p>
+            <p>
+              The breadboard era is over.
+              We moved to perfboard with headers for 12V motor power, stepper phases, and station reed switches, and routed moving wires so they can't snag during motion.
+            </p>
+            <p>
+              The bigger lesson is that moving wiring is a design problem.
+              Suspending the stepper phase wires above the rail immediately forces the right production questions (tethered cart vs. power-from-rail, where the controller should live) while keeping the demo simple.
+            </p>
+            <p>Next up is wiring and connectors that support fault isolation and safe shutdown, not just "it runs."</p>
+
+            <figure>
+              <img class="media-img" src="content/rewire.jpg" alt="Cleaned up wiring with cable management" />
+            </figure>
+
+            <p>Everything now breaks out cleanly, which makes debugging (and reconfiguring) much less painful.</p>
+            <figure>
+              <img class="media-img" src="content/board_front.jpg" alt="Perfboard front side with headers and connections" />
+            </figure>
+            <figure>
+              <img class="media-img" src="content/board_back.jpg" alt="Perfboard back side showing solder traces" />
+            </figure>
+          </article>
+
+          <article class="post timeline-card" id="post-speed" data-tags="robotics software" data-date="Dec 26, 2025">
+            <div class="timeline-meta">
+              <span class="timeline-dot"></span>
+              <div class="meta">
+                <span class="date">Dec 26, 2025</span>
+                <span class="tag">Rail Robot - Holiday Hackathon</span>
+              </div>
+            </div>
+            <h3 class="post-title">Getting The Rail Moving Fast</h3>
+
+            <p>We pushed rail speed to find the real limits, not the comfortable ones.</p>
+            <p>
+              The constraint shows up quickly: aggressive acceleration creates torque that can lift the cart off the track, so mechanical design and packaging are the next wins.
+            </p>
+            <p>
+              On the control side we split responsibilities:
+              a low-level stepper controller generates the pulse train and handles accel/decel ramps, while a higher-level position controller runs the station/direction state machine.
+              That separation keeps timing predictable and makes it clear where to add feedback later.
+            </p>
+            <p>Next up is tightening the mechanical envelope (torque, clamping, mass distribution) so software can safely ask for more speed.</p>
+
+            <video class="media-video" controls preload="metadata">
+              <source src="content/speed_test.mp4" type="video/mp4" />
+              Sorry, your browser doesn't support embedded videos.
+            </video>
+          </article>
+
+          <article class="post timeline-card" id="post-cad" data-tags="robotics" data-date="Dec 21, 2025">
+            <div class="timeline-meta">
+              <span class="timeline-dot"></span>
+              <div class="meta">
+                <span class="date">Dec 21, 2025</span>
+                <span class="tag">Rail Robot - Holiday Hackathon</span>
+              </div>
+            </div>
+            <h3 class="post-title">Arguing In 3D Before Printing</h3>
+
+            <p>We modeled the whole mechanism in CAD so we could trade time in software for fewer reprints.</p>
+            <p>
+              The goal is risk reduction: catch interference, bad load paths, and packaging mistakes before the physical pile-up on the bench.
+            </p>
+            <p>
+              The rails and bearing wheels are the only truly fixed parts; almost everything else is printable.
+              Building the system as sub-assemblies made it easier to reason about actuator placement, gear rail location, and clearances before we committed to a layout.
+            </p>
+            <p>
+              CAD also surfaced constraints early.
+              Servo cable length pushed us to keep the SBC off-cart for initial testing, and the first scissor lift load path made it clear we needed a redesign to reduce torque on printed parts.
+            </p>
+            <p>Next up is iterating the packaging so the mechanical stack and wiring routes support reliable motion, not just first-time assembly.</p>
+
+            <figure>
+              <img class="media-img" src="content/cad1.png" alt="CAD assembly view of complete rail robot" />
+            </figure>
+            <figure>
+              <img class="media-img" src="content/cad2.png" alt="CAD detail of cart mechanism" />
+            </figure>
+            <figure>
+              <img class="media-img" src="content/cad3.png" alt="CAD exploded view showing sub-assemblies" />
+            </figure>
+          </article>
+
+          <article class="post timeline-card" id="post-sketches" data-tags="robotics" data-date="Dec 18, 2025">
+            <div class="timeline-meta">
+              <span class="timeline-dot"></span>
+              <div class="meta">
+                <span class="date">Dec 18, 2025</span>
+                <span class="tag">Rail Robot - Holiday Hackathon</span>
+              </div>
+            </div>
+            <h3 class="post-title">The First Sketches</h3>
+
+            <p>The original idea: move plates like a tiny factory line instead of a fancy robot arm.</p>
+            <p>
+              The goal was to learn fast: validate the motion system and handoff mechanics before we invest in a more complex automation layout.
+            </p>
+            <p>
+              The plan was straightforward: buy metal rails, suspend them on printed stands, and keep the cart's top surface dedicated to holding a plate.
+              Everything else (controller, actuators, lift) hangs underneath so stations can overhang the track and the cart can deposit/pick up without extra mechanisms at each station.
+            </p>
+            <p>
+              The earliest lift concept was a spooling/scissor setup.
+              It got us moving quickly and surfaced the real constraints early: torque, rigidity, and cable management.
+            </p>
+            <p>Next up is turning the sketches into CAD so we can converge on a printable, assemblable stack.</p>
+
+            <figure>
+              <img class="media-img" src="content/sketch1.png" alt="Initial rail robot concept sketch showing cart and rail layout" />
+            </figure>
+            <figure>
+              <img class="media-img" src="content/sketch2.png" alt="Early lift mechanism sketch with spooling concept" />
+            </figure>
+          </article>
+        </main>
+
+        <aside class="timeline-rail" id="timeline-rail">
+          <div class="timeline-track" id="timeline-track">
+            <div class="timeline-thumb" id="timeline-thumb"></div>
+          </div>
+          <div class="timeline-tooltip" id="timeline-tooltip">Jan 2026</div>
+        </aside>
       </div>
+      </div>
+
+      <footer>
+        <span id="year"></span> Diff Bio
+      </footer>
     </div>
-
-    <div class="layout">
-      <main class="feed" id="feed">
-        <article class="post timeline-card" id="post-lab-sim" data-tags="lab-automation" data-date="Jan 15, 2026">
-          <div class="timeline-meta">
-            <span class="timeline-dot"></span>
-            <div class="meta">
-              <span class="date">Jan 15, 2026</span>
-              <span class="tag">Lab Automation</span>
-            </div>
-          </div>
-          <h3 class="post-title">Lab Simulation</h3>
-
-          <p>We built Maestro to de-risk lab automation orchestration before we touch hardware.</p>
-          <p>
-            The goal is simple: run workflows repeatedly, see where timing and coordination break, and fix that loop before it becomes a hardware problem.
-          </p>
-          <p>
-            At the core is a deterministic simulation engine that advances in fixed 100ms ticks.
-            Nodes (robots, stations, instruments) are small state machines that emit telemetry events as they execute commands.
-            Because time advances in discrete ticks, we can reproduce “exactly what happened” from the same initial state and inputs — which is ideal for performance questions and corner cases.
-          </p>
-          <p>
-            Control is event-driven.
-            The orchestrator talks to the simulation over gRPC, issues commands, and waits on telemetry (arrived, plate picked, command rejected) rather than polling or sleeping.
-            In parallel, the browser UI connects to two WebSocket streams: one for raw telemetry and one for orchestrator state.
-            That separation is intentional: it keeps the UI useful whether the backend is a simulation or real hardware.
-          </p>
-          <p>
-            We also inject faults on purpose to test recovery behavior early, while it’s cheap to fix.
-            The same control surface can later drive real systems, so this isn’t throwaway code.
-          </p>
-          <p>Next up is expanding scenario coverage and tightening runtime metrics so we can compare changes run-to-run.</p>
-
-          <figure>
-            <img class="media-img" src="content/sim.gif" alt="Sim Gif" />
-          </figure>
-          <figure>
-            <img class="media-img" src="content/sim_screenshot_1.png" alt="Operation Running" />
-          </figure>
-          <figure>
-            <img class="media-img" src="content/faulted.png" alt="Faulted" />
-          </figure>
-          <figure>
-            <img class="media-img" src="content/metrics.png" alt="Metrics" />
-          </figure>
-        </article>
-
-        <article class="post timeline-card" id="post-protein-dojo" data-tags="robotics" data-date="Jan 15, 2026">
-          <div class="timeline-meta">
-            <span class="timeline-dot"></span>
-            <div class="meta">
-              <span class="date">Jan 15, 2026</span>
-              <span class="tag">Protein Dojo</span>
-            </div>
-          </div>
-          <h3 class="post-title">Protein Dojo</h3>
-          <a class="pill-link" href="https://www.proteindojo.com/" target="_blank" rel="noopener">proteindojo.com</a>
-
-          <p>Protein Dojo makes protein design feel hands-on instead of “read papers and hope.”</p>
-          <p>
-            For small teams iterating on binders, the difference is loop speed: get to a concrete design decision quickly, with enough feedback to learn what actually changed.
-          </p>
-          <p>
-            Under the hood it’s grounded in real structures.
-            You can explore an actual complex (e.g. SARS‑CoV‑2 Spike RBD bound to human ACE2) pulled from the PDB, then design against a specific interface.
-          </p>
-          <p>
-            The workflow is intentionally structured: Explore → Design → Evaluate → Submit.
-            That’s where the “cool” becomes useful — you can move between 3D geometry and residue-level sequence changes without losing context.
-          </p>
-          <p>
-            The evaluation loop is the teacher.
-            Make a change, re-evaluate, and see why it helped or hurt: clashes, polarity, surface complementarity, and whether the design still looks physically plausible.
-          </p>
-          <p>Next up is tightening the evaluation signal so iteration feels even more like engineering and less like guesswork.</p>
-
-          <figure>
-            <img class="media-img" src="content/protein_dojo.png" alt="Protein Dojo screenshot" />
-          </figure>
-          <figure>
-            <img class="media-img" src="content/dojo2.png" alt="Protein Dojo screenshot" />
-          </figure>
-        </article>
-
-        <article class="post timeline-card" id="post-rethinking" data-tags="robotics" data-date="Jan 5, 2026">
-          <div class="timeline-meta">
-            <span class="timeline-dot"></span>
-            <div class="meta">
-              <span class="date">Jan 5, 2026</span>
-              <span class="tag">Rail Robot - Holiday Hackathon</span>
-            </div>
-          </div>
-          <h3 class="post-title">Turning A Demo Into Something Reliable</h3>
-
-          <p>We’re turning a working demo into a system that’s predictable under stress.</p>
-          <p>
-            Reliability is the goal: repeatable behavior, clearer failure modes, and a safety path that doesn’t depend on “everything else behaving.”
-          </p>
-          <p>
-            The current loop runs on a small Linux SBC because it’s convenient for iteration.
-            Longer-term we’ll likely split timing-critical motor control onto a dedicated controller, and keep Linux focused on the UI, logging, and coordination.
-          </p>
-          <p>
-            The architecture we’re converging on is three layers:
-            hardware I/O and timing (step pulses, servo PWM, limit inputs),
-            motion planning (ramps/segments that respect the mechanics),
-            and orchestration (station state machine + traceable logs of what happened and why).
-          </p>
-          <p>
-            The key rule is non-blocking control.
-            Everything advances on a monotonic tick with explicit state transitions, so adding sensors later becomes “handle new evidence” rather than “rewrite the loop.”
-          </p>
-          <p>Next up is closing the feedback gaps: station ID, lift position feedback, and a hard stop path that’s independent of application logic.</p>
-
-          <figure>
-            <img class="media-img" src="content/robot_v1p1_schematic.png" alt="control schematic draft" />
-          </figure>
-        </article>
-
-        <article class="post timeline-card pinned" id="post-demo-pick" data-tags="robotics" data-date="Jan 3, 2026">
-          <div class="timeline-meta">
-            <span class="timeline-dot"></span>
-            <div class="meta">
-              <span class="date">Jan 3, 2026</span>
-              <span class="tag">Rail Robot - Holiday Hackathon</span>
-            </div>
-          </div>
-          <h3 class="post-title">A First End To End Demo</h3>
-          <p>The cart picks up a plate, rides the rail, and drops it off — end to end.</p>
-          <p>
-            This started as a holiday hackathon build.
-            The point was to prove we can go from sketch → mechanism → control loop → repeatable motion quickly, then iterate toward robustness.
-          </p>
-          <p>
-            The demo is intentionally simple: two stations, a lift, and one controller loop sequencing the whole operation.
-            That simplicity is useful because it makes changes legible — update one variable (mechanism, tuning, software) and you immediately see the effect.
-          </p>
-          <p>
-            Under the hood it’s one SBC running a tight C++ loop: generate step pulses, shape acceleration/deceleration so motion stays smooth, and sequence a station state machine.
-            We’re intentionally light on sensors right now so we can pin down the fundamentals before adding complexity.
-          </p>
-          <p>
-            The lift is a servo-driven cam with no latching and no extra feedback, which makes the next steps obvious: plate presence sensing, lift position feedback, and a safety stop path that doesn’t depend on application code.
-          </p>
-          <p>Next up is adding feedback without losing simplicity: minimal sensors, clear failure modes, and a safer stop-everything path.</p>
-
-          <video class="media-video" controls preload="metadata">
-            <source src="content/speed_test_place_h264.mp4" type="video/mp4" />
-            Sorry, your browser doesn't support embedded videos.
-          </video>
-        </article>
-
-        <article class="post timeline-card" id="post-station" data-tags="robotics" data-date="Jan 2, 2026">
-          <div class="timeline-meta">
-            <span class="timeline-dot"></span>
-            <div class="meta">
-              <span class="date">Jan 2, 2026</span>
-              <span class="tag">Rail Robot - Holiday Hackathon</span>
-            </div>
-          </div>
-          <h3 class="post-title">A Simple Station</h3>
-
-          <p>A station is a small landing pad that makes placement predictable.</p>
-          <p>
-            The goal is repeatability: when the cart arrives, the plate lands in the same place every time, so the rest of the system can be simpler.
-          </p>
-          <p>
-            Ours is a 3D-printed part with a guiding lip and an overhang that lets the cart position a plate above the station and lower into a known target.
-            It’s intentionally modular so we can place multiple stations along the rail without redesigning the system.
-          </p>
-          <p>
-            Later we can add sensing and locking, but this baseline geometry is the foundation for reliable demos and clean integration tests.
-          </p>
-          <p>Next up is adding just enough sensing to detect “plate present / plate absent” without complicating the mechanism.</p>
-
-          <figure>
-            <img class="media-img" src="content/simple_station.png" alt="simple station design" />
-          </figure>
-        </article>
-
-        <article class="post timeline-card" id="post-cam-lift" data-tags="robotics" data-date="Jan 1, 2026">
-          <div class="timeline-meta">
-            <span class="timeline-dot"></span>
-            <div class="meta">
-              <span class="date">Jan 1, 2026</span>
-              <span class="tag">Rail Robot - Holiday Hackathon</span>
-            </div>
-          </div>
-          <h3 class="post-title">A Better Lift Mechanism</h3>
-
-          <p>We replaced a scissor lift with a compact servo-driven cam lift.</p>
-          <p>
-            The goal is controlled motion: less flex, less torque on printed parts, and a lift path that’s smooth enough to keep plates stable.
-          </p>
-          <p>
-            The scissor version looked fine in CAD but flexed too much in the printed assembly and loaded the plastic in the wrong ways.
-            The cam lift is stiffer and simpler to tune because the cam profile can shape acceleration/deceleration mechanically, not just in software.
-          </p>
-          <p>
-            It’s also a better base for feedback: adding a position sensor or a hard stop is straightforward compared to debugging a flexy linkage.
-          </p>
-          <p>Next up is adding lift position feedback so the controller can detect “not where expected” and react safely.</p>
-
-          <figure>
-            <img class="media-img" src="content/cam_lift.png" alt="cam lift design" />
-            <img class="media-img" src="content/plate_holding.jpg" alt="cam lift design" />
-          </figure>
-        </article>
-
-        <article class="post timeline-card" id="post-wire-clean" data-tags="robotics" data-date="Dec 27, 2025">
-          <div class="timeline-meta">
-            <span class="timeline-dot"></span>
-            <div class="meta">
-              <span class="date">Dec 27, 2025</span>
-              <span class="tag">Rail Robot - Holiday Hackathon</span>
-            </div>
-          </div>
-          <h3 class="post-title">Wiring That Survives Real Life</h3>
-
-          <p>We cleaned up wiring so iteration doesn’t come with a reliability tax.</p>
-          <p>
-            The goal is stable debugging: change one thing, observe the effect, and avoid introducing new failures from loose jumpers and tangled cables.
-          </p>
-          <p>
-            The breadboard era is over.
-            We moved to perfboard with headers for 12V motor power, stepper phases, and station reed switches, and routed moving wires so they can’t snag during motion.
-          </p>
-          <p>
-            The bigger lesson is that moving wiring is a design problem.
-            Suspending the stepper phase wires above the rail immediately forces the right production questions (tethered cart vs. power-from-rail, where the controller should live) while keeping the demo simple.
-          </p>
-          <p>Next up is wiring and connectors that support fault isolation and safe shutdown, not just “it runs.”</p>
-
-          <figure>
-            <img class="media-img" src="content/rewire.jpg" alt="consolidation of electrical design" />
-          </figure>
-
-          <p>Everything now breaks out cleanly, which makes debugging (and reconfiguring) much less painful.</p>
-          <figure>
-            <img class="media-img" src="content/board_front.jpg" alt="consolidation of electrical design" />
-          </figure>
-          <figure>
-            <img class="media-img" src="content/board_back.jpg" alt="consolidation of electrical design" />
-          </figure>
-        </article>
-
-        <article class="post timeline-card" id="post-speed" data-tags="robotics software" data-date="Dec 26, 2025">
-          <div class="timeline-meta">
-            <span class="timeline-dot"></span>
-            <div class="meta">
-              <span class="date">Dec 26, 2025</span>
-              <span class="tag">Rail Robot - Holiday Hackathon</span>
-            </div>
-          </div>
-          <h3 class="post-title">Getting The Rail Moving Fast</h3>
-
-          <p>We pushed rail speed to find the real limits, not the comfortable ones.</p>
-          <p>
-            The constraint shows up quickly: aggressive acceleration creates torque that can lift the cart off the track, so mechanical design and packaging are the next wins.
-          </p>
-          <p>
-            On the control side we split responsibilities:
-            a low-level stepper controller generates the pulse train and handles accel/decel ramps, while a higher-level position controller runs the station/direction state machine.
-            That separation keeps timing predictable and makes it clear where to add feedback later.
-          </p>
-          <p>Next up is tightening the mechanical envelope (torque, clamping, mass distribution) so software can safely ask for more speed.</p>
-
-          <video class="media-video" controls preload="metadata">
-            <source src="content/speed_test.mp4" type="video/mp4" />
-            Sorry, your browser doesn't support embedded videos.
-          </video>
-        </article>
-
-        <article class="post timeline-card" id="post-cad" data-tags="robotics" data-date="Dec 21, 2025">
-          <div class="timeline-meta">
-            <span class="timeline-dot"></span>
-            <div class="meta">
-              <span class="date">Dec 21, 2025</span>
-              <span class="tag">Rail Robot - Holiday Hackathon</span>
-            </div>
-          </div>
-          <h3 class="post-title">Arguing In 3D Before Printing</h3>
-
-          <p>We modeled the whole mechanism in CAD so we could trade time in software for fewer reprints.</p>
-          <p>
-            The goal is risk reduction: catch interference, bad load paths, and packaging mistakes before the physical pile-up on the bench.
-          </p>
-          <p>
-            The rails and bearing wheels are the only truly fixed parts; almost everything else is printable.
-            Building the system as sub-assemblies made it easier to reason about actuator placement, gear rail location, and clearances before we committed to a layout.
-          </p>
-          <p>
-            CAD also surfaced constraints early.
-            Servo cable length pushed us to keep the SBC off-cart for initial testing, and the first scissor lift load path made it clear we needed a redesign to reduce torque on printed parts.
-          </p>
-          <p>Next up is iterating the packaging so the mechanical stack and wiring routes support reliable motion, not just first-time assembly.</p>
-
-          <figure>
-            <img class="media-img" src="content/cad1.png" alt="" />
-            <img class="media-img" src="content/cad2.png" alt="" />
-            <img class="media-img" src="content/cad3.png" alt="" />
-          </figure>
-        </article>
-
-        <article class="post timeline-card" id="post-sketches" data-tags="robotics" data-date="Dec 18, 2025">
-          <div class="timeline-meta">
-            <span class="timeline-dot"></span>
-            <div class="meta">
-              <span class="date">Dec 18, 2025</span>
-              <span class="tag">Rail Robot - Holiday Hackathon</span>
-            </div>
-          </div>
-          <h3 class="post-title">The First Sketches</h3>
-
-          <p>The original idea: move plates like a tiny factory line instead of a fancy robot arm.</p>
-          <p>
-            The goal was to learn fast: validate the motion system and handoff mechanics before we invest in a more complex automation layout.
-          </p>
-          <p>
-            The plan was straightforward: buy metal rails, suspend them on printed stands, and keep the cart’s top surface dedicated to holding a plate.
-            Everything else (controller, actuators, lift) hangs underneath so stations can overhang the track and the cart can deposit/pick up without extra mechanisms at each station.
-          </p>
-          <p>
-            The earliest lift concept was a spooling/scissor setup.
-            It got us moving quickly and surfaced the real constraints early: torque, rigidity, and cable management.
-          </p>
-          <p>Next up is turning the sketches into CAD so we can converge on a printable, assemblable stack.</p>
-
-          <figure>
-            <img class="media-img" src="content/sketch1.png" alt="" />
-            <img class="media-img" src="content/sketch2.png" alt="" />
-          </figure>
-        </article>
-      </main>
-      <aside class="timeline-rail" id="timeline-rail">
-        <div class="rail-line"></div>
-      </aside>
-    </div>
-    </div>
-    <footer>
-      © <span id="year"></span>
-    </footer>
   </div>
 
   <div class="media-modal" id="media-modal" aria-hidden="true">
     <div class="media-modal__backdrop" data-modal-close></div>
+    <button class="media-modal__close" type="button" data-modal-close>[ ESC ] Close</button>
     <div class="media-modal__content" role="dialog" aria-modal="true" aria-label="Image preview">
       <img class="media-modal__img" alt="" />
-      <button class="media-modal__close" type="button" data-modal-close>Close</button>
+      <div class="media-modal__caption" id="modal-caption"></div>
+      <div class="media-modal__nav">
+        <button class="media-modal__btn" id="modal-prev" type="button">&lt; Prev</button>
+        <span class="media-modal__counter" id="modal-counter">1 / 5</span>
+        <button class="media-modal__btn" id="modal-next" type="button">Next &gt;</button>
+      </div>
     </div>
   </div>
 
@@ -395,33 +425,28 @@
     document.getElementById("year").textContent = new Date().getFullYear();
 
     const feedPosts = Array.from(document.querySelectorAll(".feed .post"));
-    const timelineRail = document.getElementById("timeline-rail");
-    const timelineNodes = [];
-    let activeGroup = "";
-
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
     const parseDate = (value) => {
       if (!value) return null;
       const parsed = new Date(value);
       if (Number.isNaN(parsed.getTime())) return null;
       return parsed;
     };
+
     const getPostDateString = (post) => {
       const attr = post.dataset.date?.trim();
       if (attr) return attr;
       const dateEl = post.querySelector(".date");
       return dateEl?.textContent?.trim() || "";
     };
-    const monthKeyFromDate = (value) => {
-      const parsed = parseDate(value);
-      if (!parsed) return "Unknown";
-      return `${parsed.getFullYear()}-${String(parsed.getMonth() + 1).padStart(2, "0")}`;
-    };
+
     const monthLabelFromDate = (value) => {
       const parsed = parseDate(value);
       if (!parsed) return "Unknown";
       return `${monthNames[parsed.getMonth()]} ${parsed.getFullYear()}`;
     };
+
     const getPostMeta = () =>
       feedPosts.map((post, index) => {
         const dateString = getPostDateString(post);
@@ -431,105 +456,101 @@
           post,
           parsed,
           timestamp: parsed ? parsed.getTime() : null,
-          groupKey: monthKeyFromDate(dateString),
-          groupLabel: monthLabelFromDate(dateString),
+          label: monthLabelFromDate(dateString),
         };
       });
 
-    const setActiveTimelineGroup = (groupKey) => {
-      activeGroup = groupKey;
-      timelineNodes.forEach((node) => {
-        node.classList.toggle("active", node.dataset.group === groupKey && !node.hidden);
-      });
-    };
+    // Timeline scrubber
+    const timelineRail = document.getElementById("timeline-rail");
+    const timelineTrack = document.getElementById("timeline-track");
+    const timelineThumb = document.getElementById("timeline-thumb");
+    const timelineTooltip = document.getElementById("timeline-tooltip");
 
-    const scrollToPostIndex = (index) => {
-      const target = feedPosts[index];
-      if (!target || target.hidden) return;
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-    };
+    let isDragging = false;
+    let postMeta = getPostMeta().filter(m => m.timestamp).sort((a, b) => b.timestamp - a.timestamp);
+    let minTime = postMeta.length ? postMeta[postMeta.length - 1].timestamp : 0;
+    let maxTime = postMeta.length ? postMeta[0].timestamp : 0;
 
-    const createTimeline = () => {
-      timelineRail.innerHTML = '<div class="rail-line"></div>';
-      const todayButton = document.createElement("button");
-      todayButton.type = "button";
-      todayButton.className = "timeline-today";
-      todayButton.textContent = "Today";
-      todayButton.addEventListener("click", () => {
-        const meta = getPostMeta()
-          .filter((item) => !item.post.hidden)
-          .sort((a, b) => (b.timestamp ?? -Infinity) - (a.timestamp ?? -Infinity));
-        if (meta.length) scrollToPostIndex(meta[0].index);
-      });
-      timelineRail.appendChild(todayButton);
+    const updateThumbPosition = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = docHeight > 0 ? scrollTop / docHeight : 0;
+      const trackHeight = timelineTrack.offsetHeight - timelineThumb.offsetHeight;
+      timelineThumb.style.top = `${scrollPercent * trackHeight}px`;
 
-      const meta = getPostMeta();
-      const groups = Array.from(
-        meta
-          .filter((item) => item.groupKey !== "Unknown")
-          .reduce((acc, item) => {
-            if (!acc.has(item.groupKey)) {
-              acc.set(item.groupKey, {
-                key: item.groupKey,
-                label: item.groupLabel,
-                timestamp: item.timestamp ?? -Infinity,
-              });
-            }
-            return acc;
-          }, new Map())
-          .values()
-      ).sort((a, b) => b.timestamp - a.timestamp);
-
-      groups.forEach((group) => {
-        const node = document.createElement("button");
-        node.type = "button";
-        node.className = "timeline-node";
-        node.dataset.group = group.key;
-        node.innerHTML = `
-          <span class="timeline-dot"></span>
-          <span class="timeline-label">${group.label}</span>
-        `;
-        node.addEventListener("click", () => {
-          const groupPosts = meta.filter((item) => item.groupKey === group.key);
-          if (!groupPosts.length) return;
-          const target = groupPosts.sort((a, b) => (b.timestamp ?? -Infinity) - (a.timestamp ?? -Infinity))[0];
-          scrollToPostIndex(target.index);
-        });
-        timelineRail.appendChild(node);
-        timelineNodes.push(node);
-      });
-    };
-
-    createTimeline();
-    if (feedPosts.length) {
-      const meta = getPostMeta().sort((a, b) => (b.timestamp ?? -Infinity) - (a.timestamp ?? -Infinity));
-      setActiveTimelineGroup(meta[0]?.groupKey || "");
-    }
-
-    const updateActiveOnScroll = () => {
-      const threshold = window.scrollY + window.innerHeight / 3;
-      let current = activeGroup;
-      for (let i = 0; i < feedPosts.length; i += 1) {
-        const post = feedPosts[i];
-        if (post.hidden) continue;
-        if (post.offsetTop >= threshold) {
-          current = monthKeyFromDate(getPostDateString(post));
-          break;
+      // Update tooltip: find post that contains the viewport midpoint
+      const midpoint = window.innerHeight / 2;
+      for (const post of feedPosts) {
+        const rect = post.getBoundingClientRect();
+        if (rect.top <= midpoint && rect.bottom >= midpoint) {
+          timelineTooltip.textContent = monthLabelFromDate(getPostDateString(post));
+          return;
         }
       }
-      if (current) setActiveTimelineGroup(current);
     };
+
+    const scrollToPosition = (percent) => {
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      window.scrollTo({ top: percent * docHeight, behavior: 'smooth' });
+    };
+
+    const handleTrackClick = (e) => {
+      if (e.target === timelineThumb) return;
+      const rect = timelineTrack.getBoundingClientRect();
+      const clickY = e.clientY - rect.top;
+      const percent = Math.max(0, Math.min(1, clickY / rect.height));
+      scrollToPosition(percent);
+    };
+
+    const handleDragStart = (e) => {
+      isDragging = true;
+      timelineRail.classList.add('dragging');
+      e.preventDefault();
+    };
+
+    const handleDragMove = (e) => {
+      if (!isDragging) return;
+      const rect = timelineTrack.getBoundingClientRect();
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      const clickY = clientY - rect.top;
+      const percent = Math.max(0, Math.min(1, clickY / rect.height));
+
+      const trackHeight = timelineTrack.offsetHeight - timelineThumb.offsetHeight;
+      timelineThumb.style.top = `${percent * trackHeight}px`;
+
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      window.scrollTo({ top: percent * docHeight });
+    };
+
+    const handleDragEnd = () => {
+      isDragging = false;
+      timelineRail.classList.remove('dragging');
+    };
+
+    timelineTrack.addEventListener('click', handleTrackClick);
+    timelineThumb.addEventListener('mousedown', handleDragStart);
+    timelineThumb.addEventListener('touchstart', handleDragStart, { passive: false });
+    document.addEventListener('mousemove', handleDragMove);
+    document.addEventListener('touchmove', handleDragMove, { passive: false });
+    document.addEventListener('mouseup', handleDragEnd);
+    document.addEventListener('touchend', handleDragEnd);
 
     let scrollScheduled = false;
     window.addEventListener("scroll", () => {
       if (scrollScheduled) return;
       scrollScheduled = true;
       requestAnimationFrame(() => {
-        updateActiveOnScroll();
+        updateThumbPosition();
         scrollScheduled = false;
       });
     });
 
+    // Also update on any pointer move over the timeline for responsiveness
+    timelineRail.addEventListener('pointermove', updateThumbPosition);
+
+    updateThumbPosition();
+
+    // Post summaries and expand/collapse
     const SUMMARY_MAX_CHARS = 110;
 
     const truncateAtWord = (text, maxChars) => {
@@ -683,21 +704,76 @@
       });
     };
 
+    // Lightbox modal with prev/next navigation
     const modal = document.getElementById("media-modal");
     const modalImage = modal?.querySelector(".media-modal__img");
+    const modalCaption = document.getElementById("modal-caption");
+    const modalCounter = document.getElementById("modal-counter");
+    const modalPrev = document.getElementById("modal-prev");
+    const modalNext = document.getElementById("modal-next");
+
+    let currentImages = [];
+    let currentIndex = 0;
+
     const closeModal = () => {
       if (!modal || !modalImage) return;
       modal.classList.remove("is-open");
       modal.setAttribute("aria-hidden", "true");
       modalImage.src = "";
+      currentImages = [];
+      currentIndex = 0;
     };
-    const openModal = (src, alt) => {
+
+    const updateModalImage = () => {
+      if (!currentImages.length) return;
+      const img = currentImages[currentIndex];
+      modalImage.src = img.src;
+      modalImage.alt = img.alt;
+      modalCaption.textContent = img.alt || "";
+      modalCaption.style.display = img.alt ? "block" : "none";
+      modalCounter.textContent = `${currentIndex + 1} / ${currentImages.length}`;
+      modalPrev.disabled = currentIndex === 0;
+      modalNext.disabled = currentIndex === currentImages.length - 1;
+    };
+
+    const openModal = (clickedImg) => {
       if (!modal || !modalImage) return;
-      modalImage.src = src;
-      modalImage.alt = alt || "";
+
+      // Find all images in the same post or pinned card
+      const container = clickedImg.closest(".post") || clickedImg.closest(".pinned-card");
+      if (container) {
+        currentImages = Array.from(container.querySelectorAll("img.media-img, .post-body img")).map(img => ({
+          src: img.src,
+          alt: img.alt
+        }));
+        currentIndex = currentImages.findIndex(img => img.src === clickedImg.src);
+        if (currentIndex === -1) currentIndex = 0;
+      } else {
+        currentImages = [{ src: clickedImg.src, alt: clickedImg.alt }];
+        currentIndex = 0;
+      }
+
       modal.classList.add("is-open");
       modal.setAttribute("aria-hidden", "false");
+      updateModalImage();
     };
+
+    const showPrev = () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateModalImage();
+      }
+    };
+
+    const showNext = () => {
+      if (currentIndex < currentImages.length - 1) {
+        currentIndex++;
+        updateModalImage();
+      }
+    };
+
+    modalPrev?.addEventListener("click", showPrev);
+    modalNext?.addEventListener("click", showNext);
 
     buildPostSummaries();
     populatePinnedPosts();
@@ -711,12 +787,15 @@
       }
       const image = target.closest("img.media-img, img.media-thumb");
       if (image instanceof HTMLImageElement) {
-        openModal(image.src, image.alt);
+        openModal(image);
       }
     });
 
     document.addEventListener("keydown", (event) => {
+      if (!modal?.classList.contains("is-open")) return;
       if (event.key === "Escape") closeModal();
+      if (event.key === "ArrowLeft") showPrev();
+      if (event.key === "ArrowRight") showNext();
     });
   </script>
 </body>
