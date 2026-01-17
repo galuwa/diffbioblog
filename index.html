@@ -18,6 +18,11 @@
         <p>Follow along with developmental updates on Robotics, Software, and Science.</p>
       </div>
 
+      <nav aria-label="Site links">
+        <a class="post-toggle" href="https://diff.bio/" target="_blank" rel="noopener">
+          Learn More - Contact Us
+        </a>
+      </nav>
     </header>
 
     <div class="content-area">
@@ -30,6 +35,7 @@
       <div class="pinned-grid">
         <article class="post pinned-card" data-post="post-protein-dojo"></article>
         <article class="post pinned-card" data-post="post-speed"></article>
+        <article class="post pinned-card" data-post="post-lab-sim"></article>
       </div>
     </div>
 
@@ -43,16 +49,37 @@
               <span class="tag">Lab Automation</span>
             </div>
           </div>
-          <h3 class="post-title">A Tiny Lab Simulation</h3>
+          <h3 class="post-title">Lab Simulation</h3>
 
-          <p>We built a tiny lab simulation to test workflow ideas before we touch hardware.</p>
+          <p>We built Maestro to de-risk lab automation orchestration before we touch hardware.</p>
           <p>
-            It lets us sanity-check station flow, timing, and throughput in minutes.
-            The fun part: the same control surface can later drive real hardware, so this isn’t throwaway code.
+            The goal is simple: run workflows repeatedly, see where timing and coordination break, and fix that loop before it becomes a hardware problem.
           </p>
+          <p>
+            At the core is a deterministic simulation engine that advances in fixed 100ms ticks.
+            Nodes (robots, stations, instruments) are small state machines that emit telemetry events as they execute commands.
+            Because time advances in discrete ticks, we can reproduce “exactly what happened” from the same initial state and inputs — which is ideal for performance questions and corner cases.
+          </p>
+          <p>
+            Control is event-driven.
+            The orchestrator talks to the simulation over gRPC, issues commands, and waits on telemetry (arrived, plate picked, command rejected) rather than polling or sleeping.
+            In parallel, the browser UI connects to two WebSocket streams: one for raw telemetry and one for orchestrator state.
+            That separation is intentional: it keeps the UI useful whether the backend is a simulation or real hardware.
+          </p>
+          <p>
+            We also inject faults on purpose to test recovery behavior early, while it’s cheap to fix.
+            The same control surface can later drive real systems, so this isn’t throwaway code.
+          </p>
+          <p>Next up is expanding scenario coverage and tightening runtime metrics so we can compare changes run-to-run.</p>
 
           <figure>
-            <img class="media-img" src="content/lab_sim.gif" alt="lab simulation prototype loop" />
+            <img class="media-img" src="content/sim_screenshot_1.png" alt="Operation Running" />
+          </figure>
+          <figure>
+            <img class="media-img" src="content/faulted.png" alt="Faulted" />
+          </figure>
+          <figure>
+            <img class="media-img" src="content/metrics.png" alt="Metrics" />
           </figure>
         </article>
 
@@ -67,13 +94,29 @@
           <h3 class="post-title">Protein Dojo</h3>
           <a class="pill-link" href="https://www.proteindojo.com/" target="_blank" rel="noopener">proteindojo.com</a>
 
-          <p>Protein design is finally something everyone can poke at</p>
+          <p>Protein Dojo makes protein design feel hands-on instead of “read papers and hope.”</p>
           <p>
-            We built this as a side project so people can try real protein design problems with modern machine learning tools, without a huge setup.
+            For small teams iterating on binders, the difference is loop speed: get to a concrete design decision quickly, with enough feedback to learn what actually changed.
           </p>
+          <p>
+            Under the hood it’s grounded in real structures.
+            You can explore an actual complex (e.g. SARS‑CoV‑2 Spike RBD bound to human ACE2) pulled from the PDB, then design against a specific interface.
+          </p>
+          <p>
+            The workflow is intentionally structured: Explore → Design → Evaluate → Submit.
+            That’s where the “cool” becomes useful — you can move between 3D geometry and residue-level sequence changes without losing context.
+          </p>
+          <p>
+            The evaluation loop is the teacher.
+            Make a change, re-evaluate, and see why it helped or hurt: clashes, polarity, surface complementarity, and whether the design still looks physically plausible.
+          </p>
+          <p>Next up is tightening the evaluation signal so iteration feels even more like engineering and less like guesswork.</p>
 
           <figure>
             <img class="media-img" src="content/protein_dojo.png" alt="Protein Dojo screenshot" />
+          </figure>
+          <figure>
+            <img class="media-img" src="content/dojo2.png" alt="Protein Dojo screenshot" />
           </figure>
         </article>
 
@@ -87,15 +130,25 @@
           </div>
           <h3 class="post-title">Turning A Demo Into Something Reliable</h3>
 
-          <p>We’re making the robot safer, more repeatable, and harder to accidentally break.</p>
+          <p>We’re turning a working demo into a system that’s predictable under stress.</p>
           <p>
-            The next upgrades are boring-in-a-good-way: station identification, lift position feedback, and a proper “stop everything” safety path that doesn’t depend on software behaving.
-            We also want better access to the motor driver configuration so tuning doesn’t feel like guesswork.
+            Reliability is the goal: repeatable behavior, clearer failure modes, and a safety path that doesn’t depend on “everything else behaving.”
           </p>
           <p>
-            Today the control loop runs on a tiny Linux board because it’s convenient, not because it’s perfect.
-            Longer term we’ll likely split “fast motor control” onto a dedicated controller and keep Linux for the user interface and logging.
+            The current loop runs on a small Linux SBC because it’s convenient for iteration.
+            Longer-term we’ll likely split timing-critical motor control onto a dedicated controller, and keep Linux focused on the UI, logging, and coordination.
           </p>
+          <p>
+            The architecture we’re converging on is three layers:
+            hardware I/O and timing (step pulses, servo PWM, limit inputs),
+            motion planning (ramps/segments that respect the mechanics),
+            and orchestration (station state machine + traceable logs of what happened and why).
+          </p>
+          <p>
+            The key rule is non-blocking control.
+            Everything advances on a monotonic tick with explicit state transitions, so adding sensors later becomes “handle new evidence” rather than “rewrite the loop.”
+          </p>
+          <p>Next up is closing the feedback gaps: station ID, lift position feedback, and a hard stop path that’s independent of application logic.</p>
 
           <figure>
             <img class="media-img" src="content/robot_v1p1_schematic.png" alt="control schematic draft" />
@@ -113,12 +166,24 @@
           <h3 class="post-title">A First End To End Demo</h3>
           <p>The cart picks up a plate, rides the rail, and drops it off — end to end.</p>
           <p>
-            It’s simple on purpose: two stations, a lift, and one controller loop doing the whole sequence.
-            The big win is repeatability: we can now change one thing (mechanism, tuning, software) and immediately see the impact.
+            This started as a holiday hackathon build.
+            The point was to prove we can go from sketch → mechanism → control loop → repeatable motion quickly, then iterate toward robustness.
           </p>
+          <p>
+            The demo is intentionally simple: two stations, a lift, and one controller loop sequencing the whole operation.
+            That simplicity is useful because it makes changes legible — update one variable (mechanism, tuning, software) and you immediately see the effect.
+          </p>
+          <p>
+            Under the hood it’s one SBC running a tight C++ loop: generate step pulses, shape acceleration/deceleration so motion stays smooth, and sequence a station state machine.
+            We’re intentionally light on sensors right now so we can pin down the fundamentals before adding complexity.
+          </p>
+          <p>
+            The lift is a servo-driven cam with no latching and no extra feedback, which makes the next steps obvious: plate presence sensing, lift position feedback, and a safety stop path that doesn’t depend on application code.
+          </p>
+          <p>Next up is adding feedback without losing simplicity: minimal sensors, clear failure modes, and a safer stop-everything path.</p>
 
           <video class="media-video" controls preload="metadata">
-            <source src="content/speed_test_place.mp4" type="video/mp4" />
+            <source src="content/speed_test_place_h264.mp4" type="video/mp4" />
             Sorry, your browser doesn't support embedded videos.
           </video>
         </article>
@@ -133,11 +198,18 @@
           </div>
           <h3 class="post-title">A Simple Station</h3>
 
-          <p>A station is just a small “landing pad” that makes placement predictable.</p>
+          <p>A station is a small landing pad that makes placement predictable.</p>
           <p>
-            Ours is a simple printed part with a lip that guides the plate into the same spot every time.
-            Later we can add sensing and locking, but this gets us to reliable demos fast.
+            The goal is repeatability: when the cart arrives, the plate lands in the same place every time, so the rest of the system can be simpler.
           </p>
+          <p>
+            Ours is a 3D-printed part with a guiding lip and an overhang that lets the cart position a plate above the station and lower into a known target.
+            It’s intentionally modular so we can place multiple stations along the rail without redesigning the system.
+          </p>
+          <p>
+            Later we can add sensing and locking, but this baseline geometry is the foundation for reliable demos and clean integration tests.
+          </p>
+          <p>Next up is adding just enough sensing to detect “plate present / plate absent” without complicating the mechanism.</p>
 
           <figure>
             <img class="media-img" src="content/simple_station.png" alt="simple station design" />
@@ -154,8 +226,18 @@
           </div>
           <h3 class="post-title">A Better Lift Mechanism</h3>
 
-          <p>We replaced a wobbly scissor lift with a compact cam lift.</p>
-          <p>The motion is smoother, the parts see less stress, and the plate is less likely to do anything exciting on the way up.</p>
+          <p>We replaced a scissor lift with a compact servo-driven cam lift.</p>
+          <p>
+            The goal is controlled motion: less flex, less torque on printed parts, and a lift path that’s smooth enough to keep plates stable.
+          </p>
+          <p>
+            The scissor version looked fine in CAD but flexed too much in the printed assembly and loaded the plastic in the wrong ways.
+            The cam lift is stiffer and simpler to tune because the cam profile can shape acceleration/deceleration mechanically, not just in software.
+          </p>
+          <p>
+            It’s also a better base for feedback: adding a position sensor or a hard stop is straightforward compared to debugging a flexy linkage.
+          </p>
+          <p>Next up is adding lift position feedback so the controller can detect “not where expected” and react safely.</p>
 
           <figure>
             <img class="media-img" src="content/cam_lift.png" alt="cam lift design" />
@@ -173,17 +255,25 @@
           </div>
           <h3 class="post-title">Wiring That Survives Real Life</h3>
 
-          <p>We rewired the prototype so it survives tweaks, bumps, and cats.</p>
+          <p>We cleaned up wiring so iteration doesn’t come with a reliability tax.</p>
           <p>
-            The breadboard era is over: we moved to a soldered board with clean headers, and routed the moving wires so they can’t snag during motion.
-            It’s not glamorous work, but it’s the difference between a demo that works once and a prototype you can iterate on daily.
+            The goal is stable debugging: change one thing, observe the effect, and avoid introducing new failures from loose jumpers and tangled cables.
           </p>
+          <p>
+            The breadboard era is over.
+            We moved to perfboard with headers for 12V motor power, stepper phases, and station reed switches, and routed moving wires so they can’t snag during motion.
+          </p>
+          <p>
+            The bigger lesson is that moving wiring is a design problem.
+            Suspending the stepper phase wires above the rail immediately forces the right production questions (tethered cart vs. power-from-rail, where the controller should live) while keeping the demo simple.
+          </p>
+          <p>Next up is wiring and connectors that support fault isolation and safe shutdown, not just “it runs.”</p>
 
           <figure>
             <img class="media-img" src="content/rewire.jpg" alt="consolidation of electrical design" />
           </figure>
 
-          <p>Everything now breaks out cleanly, which makes debugging (and reconfiguring) way less painful.</p>
+          <p>Everything now breaks out cleanly, which makes debugging (and reconfiguring) much less painful.</p>
           <figure>
             <img class="media-img" src="content/board_front.jpg" alt="consolidation of electrical design" />
           </figure>
@@ -202,11 +292,16 @@
           </div>
           <h3 class="post-title">Getting The Rail Moving Fast</h3>
 
-          <p>We pushed the rail speed until it started to scare the cat.</p>
+          <p>We pushed rail speed to find the real limits, not the comfortable ones.</p>
           <p>
-            The biggest constraint right now is mechanical: if we accelerate too hard, torque can pop the cart off the track.
-            That’s a great sign, because it means the next gains are mostly design and packaging, not “rewrite everything.”
+            The constraint shows up quickly: aggressive acceleration creates torque that can lift the cart off the track, so mechanical design and packaging are the next wins.
           </p>
+          <p>
+            On the control side we split responsibilities:
+            a low-level stepper controller generates the pulse train and handles accel/decel ramps, while a higher-level position controller runs the station/direction state machine.
+            That separation keeps timing predictable and makes it clear where to add feedback later.
+          </p>
+          <p>Next up is tightening the mechanical envelope (torque, clamping, mass distribution) so software can safely ask for more speed.</p>
 
           <video class="media-video" controls preload="metadata">
             <source src="content/speed_test.mp4" type="video/mp4" />
@@ -224,8 +319,19 @@
           </div>
           <h3 class="post-title">Arguing In 3D Before Printing</h3>
 
-          <p>We modeled the whole system in three dimensions so we could find the dumb problems early.</p>
-          <p>It saved us from a bunch of “print, assemble, swear, reprint” loops, and made tradeoffs obvious before the first screw went in.</p>
+          <p>We modeled the whole mechanism in CAD so we could trade time in software for fewer reprints.</p>
+          <p>
+            The goal is risk reduction: catch interference, bad load paths, and packaging mistakes before the physical pile-up on the bench.
+          </p>
+          <p>
+            The rails and bearing wheels are the only truly fixed parts; almost everything else is printable.
+            Building the system as sub-assemblies made it easier to reason about actuator placement, gear rail location, and clearances before we committed to a layout.
+          </p>
+          <p>
+            CAD also surfaced constraints early.
+            Servo cable length pushed us to keep the SBC off-cart for initial testing, and the first scissor lift load path made it clear we needed a redesign to reduce torque on printed parts.
+          </p>
+          <p>Next up is iterating the packaging so the mechanical stack and wiring routes support reliable motion, not just first-time assembly.</p>
 
           <figure>
             <img class="media-img" src="content/cad1.png" alt="" />
@@ -245,7 +351,18 @@
           <h3 class="post-title">The First Sketches</h3>
 
           <p>The original idea: move plates like a tiny factory line instead of a fancy robot arm.</p>
-          <p>We wanted something cheap, fast to hack on, and good enough to teach us what matters before we overbuild.</p>
+          <p>
+            The goal was to learn fast: validate the motion system and handoff mechanics before we invest in a more complex automation layout.
+          </p>
+          <p>
+            The plan was straightforward: buy metal rails, suspend them on printed stands, and keep the cart’s top surface dedicated to holding a plate.
+            Everything else (controller, actuators, lift) hangs underneath so stations can overhang the track and the cart can deposit/pick up without extra mechanisms at each station.
+          </p>
+          <p>
+            The earliest lift concept was a spooling/scissor setup.
+            It got us moving quickly and surfaced the real constraints early: torque, rigidity, and cable management.
+          </p>
+          <p>Next up is turning the sketches into CAD so we can converge on a printable, assemblable stack.</p>
 
           <figure>
             <img class="media-img" src="content/sketch1.png" alt="" />
