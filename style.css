@@ -258,7 +258,7 @@ nav {
 .content-area {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
 }
 
 .layout {
@@ -673,6 +673,10 @@ footer::before {
 
   .terminal-body {
     padding: 12px 12px 80px;
+  }
+
+  .content-area {
+    gap: 40px;
   }
 
   .brand h1 {
